@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 15, 2012 at 12:02 PM
+-- Generation Time: Mar 15, 2012 at 04:34 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `makets` (
   `content` text NOT NULL,
   `created` int(11) NOT NULL DEFAULT '0',
   `updated` int(11) NOT NULL DEFAULT '0',
+  `file` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=0 AUTO_INCREMENT=2 ;
 
@@ -143,8 +144,8 @@ CREATE TABLE IF NOT EXISTS `makets` (
 -- Dumping data for table `makets`
 --
 
-INSERT INTO `makets` (`id`, `title`, `content`, `created`, `updated`) VALUES
-(1, 'Основной макет сайта', '<!DOCTYPE HTML>\r\n<html>\r\n<head>\r\n    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"\r\n</head>\r\n<body>\r\n<a href="/admin/">Перейти в админку</a>\r\n<? \r\n   switch($kernel[''path''][1]){\r\n      default:\r\n        module("pages/typicle.php");\r\n        break;\r\n   }\r\n?>\r\n</body>\r\n</html>', 1331801508, 1331801851);
+INSERT INTO `makets` (`id`, `title`, `content`, `created`, `updated`, `file`) VALUES
+(1, 'Основной макет сайта', '', 1331801508, 1331818215, 'main.phpt');
 
 -- --------------------------------------------------------
 
@@ -361,8 +362,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `id_user`, `id_account`, `cap`, `remote_addr`, `user_agent`, `storage`, `city`, `created`, `updated`) VALUES
-('76d58e693c53b138aee76ab8c07d0350', 0, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', '', '', 1331801266, 1331801266),
-('b9e9c341ac3ca08edbbc5ecc89f40c53', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}htdocsorder|a:1:{i:1;s:2:"id";}htdocsdesc|a:1:{i:1;b:1;}', '', 1331801376, 1331802063);
+('b9e9c341ac3ca08edbbc5ecc89f40c53', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}htdocsorder|a:1:{i:1;s:2:"id";}htdocsdesc|a:1:{i:1;b:1;}', '', 1331801376, 1331816837),
+('60f518e0765b5f2dfb3f11efa8ee96d9', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}', '', 1331816941, 1331818218);
 
 -- --------------------------------------------------------
 
