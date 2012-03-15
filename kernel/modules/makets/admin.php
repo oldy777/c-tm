@@ -23,13 +23,14 @@ case 'add';
     // save
     $args['title'] = trim($_POST['title']);
     $args['content'] = trim($_POST['content']);
+    $args['file'] = $_POST['file'] == '0' ? '':trim($_POST['file']);;
     // check
     if($args['title']=='') { $errors['title'] = true; }
-    if($args['content']=='') { $errors['content'] = true; }
+//    if($args['content']=='') { $errors['content'] = true; }
     // ok
     if(empty($errors))
     {
-      $q->format("INSERT INTO makets SET id='%d',title='%s',content='%s',created='%d',updated='%d'", $kernel['db']->next_id('makets'), $args['title'], $args['content'], time(), time());
+      $q->format("INSERT INTO makets SET id='%d',title='%s',content='%s',created='%d',updated='%d',file='%s'", $kernel['db']->next_id('makets'), $args['title'], $args['content'], time(), time(), $args['file']);
       // redirect ok
       http_redirect($kernel['db']->affected_rows()? "/admin/?mod=makets&ok" : "/admin/?mod=makets");
     }
@@ -53,11 +54,14 @@ case 'edit';
     $args['content']=str_replace("\\\"","\"",$args['content']);
     $args['content']=str_replace("\\'","'",$args['content']);
     if($args['title']=='') { $errors['title'] = true; }
-    if($args['content']=='') { $errors['content'] = true; }
+//    if($args['content']=='') { $errors['content'] = true; }
+    
+    $args['file'] = $_POST['file'] == '0' ? '':trim($_POST['file']);
+//    print_r($args);exit;
     // ok
     if(empty($errors))
     {
-      $q->format("UPDATE makets SET title='%s',content='%s',updated='%d' WHERE id='%d'", $args['title'], $args['content'], time(), $args['id']);
+      $q->format("UPDATE makets SET title='%s',content='%s',updated='%d',file='%s' WHERE id='%d'", $args['title'], $args['content'], time(), $args['file'], $args['id']);
       // redirect ok
       http_redirect($kernel['db']->affected_rows()? "/admin/?mod=makets&ok" : "/admin/?mod=makets");
     }
@@ -65,7 +69,7 @@ case 'edit';
   else
   {
     // load
-    $q->format("SELECT id,title,content FROM makets WHERE id='%d'", $args['id']);
+    $q->format("SELECT * FROM makets WHERE id='%d'", $args['id']);
     $args = $q->get_row();
     $q->free_result();
     // not exists
@@ -165,6 +169,14 @@ $args['ok'] = $result['ok'] = isset($_GET['ok']);
 
 // ERROR
 $args['error'] = $result['error'] = isset($_GET['error']);
+
+$files = scandir($_SERVER['DOCUMENT_ROOT'].'/kernel/templates/' );
+$args['option']['files']['values'] = array();
+$args['option']['files']['values'][0] = 'Не используется';
+foreach($files as $file ) {
+    if ( $file == '.' or $file == '..' ) continue;
+    $args['option']['files']['values'][$file] = $file;
+}
 
 // TEMPLATE
 if($template!='') { template(dirname(__FILE__). '/templates/'. $template, $args, $errors); }

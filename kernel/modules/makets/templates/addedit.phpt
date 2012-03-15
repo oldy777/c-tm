@@ -3,7 +3,7 @@ function checkform(form)
 {
   var msg='';
   if(form.title.value=='') { msg+='*Имя пусто\n'; }
-  if(form.content.value=='') { msg+='*Текст пуст\n'; }
+//  if(form.content.value=='') { msg+='*Текст пуст\n'; }
   if(msg!='') { alert('Ошибки:\n'+msg); return false; }
   else { return true; }
 }
@@ -22,6 +22,7 @@ function onwrap()
 <?if($errors['title']){?><div class="error">&middot; Имя пуст</div><?}?>
 <?if($errors['content']){?><div class="error">&middot; Текст пуст</div><?}?>
 <?}?>
+
 <table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
 <form method="POST" action="<?=htmlspecialchars($args['action'])?>" onsubmit="return checkform(this)">
 <tr>
@@ -34,6 +35,16 @@ function onwrap()
 <input type="checkbox" class="checkbox" id="wrap" onclick="onwrap()" /><label for="wrap">перенос строк</label>
 </td>
 </tr>
+<tr>
+    <th width="1%" align="right">Использовать <br />php файл:</th>
+    <td width="98%">
+      <select name="file" style="width:100%;"/>
+      <?foreach($args['option']['files']['values'] as $v=>$o){?>
+        <option value="<?=$v?>"<?=($args['file']==$o)?' selected':''?>><?=$o?></option>
+      <?}?>
+      </select>
+    </td>
+  </tr>
 <tr>
 <td class="none">&nbsp;</td>
 <td class="none">

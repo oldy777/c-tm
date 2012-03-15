@@ -366,27 +366,35 @@ function maket($id, $args=array())
 {
   global $kernel;
   $q = $kernel['db']->query();
-  $q->query(sprintf("SELECT updated FROM makets WHERE id='%d'", $id),true);
+  $q->query(sprintf("SELECT updated, file FROM makets WHERE id='%d'", $id),true);
   $r = $q->get_row();
   $q->free_result();
 
   if(!empty($r))
   {
-    $mtime = NULL;
-    $path = TEMP_CACHE_DIR. '/template#'. $id. '.phpt';
-    if(file_exists($path)) { $mtime = filemtime($path); }
-    if($mtime && $mtime==$r['updated']) { } // db == file, fast mode
-    elseif(!$mtime || $r['updated'] > $mtime) // db -> file
+    if(isset($r['file']) && $r['file'])
     {
-      $q->query(sprintf("SELECT content,updated FROM makets WHERE id='%d'", $id));
-      $r = $q->get_row();
-      $q->free_result();
-      if(!empty($r) && lockwrite($path, $r['content']))
-      {
-        if($r['updated']) { touch($path, $r['updated']); }
-      }
+        $path = $_SERVER['DOCUMENT_ROOT'].'/kernel/templates/'.$r['file'];
+    }
+    else 
+    {
+        $mtime = NULL;
+        $path = TEMP_CACHE_DIR. '/template#'. $id. '.phpt';
+        if(file_exists($path)) { $mtime = filemtime($path); }
+        if($mtime && $mtime==$r['updated']) { } // db == file, fast mode
+        elseif(!$mtime || $r['updated'] > $mtime) // db -> file
+        {
+          $q->query(sprintf("SELECT content,updated FROM makets WHERE id='%d'", $id));
+          $r = $q->get_row();
+          $q->free_result();
+          if(!empty($r) && lockwrite($path, $r['content']))
+          {
+            if($r['updated']) { touch($path, $r['updated']); }
+          }
+        }
     }
     return template($path, $args);
+    
   }
   return NULL;
 }
