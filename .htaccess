@@ -1,0 +1,14 @@
+ErrorDocument 404 /errdoc.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-s
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule ^(.+)$ /errdoc.php?%{QUERY_STRING} [L]
+</IfModule>
+
+php_flag register_globals off
+php_flag magic_quotes_gpc off

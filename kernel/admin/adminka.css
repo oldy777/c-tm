@@ -1,0 +1,488 @@
+a		{ color:#0066FF; }
+a:hover		{ text-decoration:none; }
+h1		{ font-size:1.3em; font-weight:normal; margin:0px; }
+h2		{ font-size:0.95em; font-weight:bold; margin:0px; }
+p		{ font-size:0.75em; }
+img{border:0px;}
+
+#content{height:350px}
+
+/* classes */
+.text		{ font-size:0.75em; }
+.textsml	{ font-size:0.7em; }
+.toolbar	{ font-size:0.7em; height:23px; background:url('/admin/images/toolbar.gif') repeat-x top #F0F3F9; text-align:left; }
+/*.toolbar a	{ margin:0px 10px 0px 10px; }*/
+.path		{ font-size:0.7em; color:#0066FF; }
+.global		{ font-size:0.7em; float:right; text-align:center; margin-left:1.5em; }
+.copy		{ font-size:0.6em; color:#666666; padding-bottom:3px; }
+.command	{ font-size:0.95em; font-weight:bold; padding-top:3px; }
+.command ul	{ font-size:0.8em; font-weight:normal; margin:3px 0px 0px 18px; padding:0px; list-style-image:url('/admin/images/bullet1.gif'); }
+.command ul .selected	{ list-style-image:url('/admin/images/bullet2.gif'); }
+.command ul .selected a	{ color:red; }
+.btn_add	{ background-color:#3C9D3C; width:17px; height:17px; } 
+.btn_edit	{ background-color:#FFBF38; width:17px; height:17px; } 
+.btn_del	{ background-color:#FF4538; width:17px; height:17px; } 
+.btn_copy	{ background-color:#BA52DD; width:17px; height:17px; }
+.btn_move	{ background-color:#1887FF; width:17px; height:17px; } 
+.btn_view	{ background-color:#3AE8CA; width:17px; height:17px; }
+.btn_disable	{ background-color:#CCCCCC; width:17px; height:17px; }
+.btn_list	{ background-color:#00B391; width:17px; height:17px; }
+.error		{ color:red; }
+ul.error	{ font-size:0.75em; }
+.hidden		{ color:#999999; }
+.hidden	a	{ color:#999999; }
+.img		{ border:1px solid #DADBE5; }
+div.error	{ font-size:0.8em; }
+.module		{ font-size:1.25em; font-weight:bold; text-align:left; }
+
+/* tables */
+.table		{ font-size:1em; border:1px solid #DADBE5; }
+.table tr th	{ background:url('/admin/images/th1.gif') repeat-x top #e4ffdd; color:#4E6B35;   border-top:1px solid #BEC4DA; border-bottom:1px solid #BEC4DA;white-space:nowrap;}
+.table thead th	{ text-align:center;padding-left:5px;background:url('/admin/images/th.gif') repeat-x top #F0F7FF;border-top:1px solid #BEC4DA; border-bottom:1px solid #BEC4DA;  color:#4E6B35; white-space:nowrap; }
+.table th.error	{ color:red; white-space:nowrap; }
+.table thead a	{ color:#4E6B35; text-decoration:none; width:90%; }
+.table td	{ background:url('/admin/images/td.gif') repeat-x top #F8FCFF; border-top:1px solid #DADBE5; border-right:1px solid #DADBE5;  line-height:24px;}
+.table td.error	{ color:red; }
+.table .none	{ background:none; border:none;}
+.table caption	{ font-size:1.2em; padding-bottom:0; }
+.table .group   { background:#003E93; color:#FFFFFF; height:30px; }
+                              
+.button{margin:10px 5px;background:url('/admin/images/but_bg.gif') repeat-x top;border:0px;height:31px;padding-bottom:3px;color:white;font-weight:bold;}
+
+fieldset	{ margin:0 0 0.5em 0; padding:2px; border:1px solid #DADBE5; }
+legend		{ font-size:0.8em; }
+legend	a	{ text-decoration:none; font-weight:bold; padding-left:12px; background:url('/admin/images/rolldown.gif') no-repeat center left; }
+
+.dialog		{ border:1px solid #C7DFE3; }
+.dialog th	{ background:url('/admin/images/th.gif') repeat-x top #F0F7FF; border-top:1px solid #CBD1E2; border-bottom:1px solid #CBD1E2; }
+.dialog .main	{ background:url('/admin/images/dialog_bg.gif') repeat-x top #F8FCFF; }
+
+.editor		{ background-color:#EBEEF5; margin-top:5px; border:1px solid #DADBE5; }
+.editor textarea	{ border:1px solid #C7DFE3; }	
+.editor iframe	{ background-color:#FFFFFF; border:1px solid #C7DFE3; }
+
+.editor	td	{ border:0px; background:none; }
+.editor	a	{ background-color:#B9D7DC; }
+.editor .up 	{ background:url('/editor/images/editor_bg1.gif') repeat-x top; }
+.editor .down	{ background:url('/editor/images/editor_bg2.gif') repeat-x bottom; }
+
+/* forms */
+form		{ margin:0px; }
+option.hidden	{ background-color:#EEEEEE; }
+label		{ cursor:hand; }
+
+input		{ font-size:11pt; border:1px solid #C7DFE3; color:#336699; }
+textarea	{ font-size:11pt; border:1px solid #C7DFE3; }
+select		{ font-size:9pt; border:1px solid #C7DFE3; color:#336699; }
+
+.dialog .button	{ font-size:1.2em; }
+.radio		{ border:0px; }
+.checkbox	{ border:0px; }
+
+.control	{ font-size:10pt; background-color:#FFFFFF; border:1px solid #C7DFE3; color:#336699; }
+.txt		{ font-size:11pt; border:0px solid #C7DFE3; color:#336699; }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial;
+  text-align: center;
+  background: url(/admin/images/top.gif) no-repeat top center #ffffff;
+  font-size: 14px;
+}
+table {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  border-collapse: collapse;
+}
+td {
+  padding: 0px;
+}
+
+h1{margin:10px 0px 0px;font-size:24px;font-weight:normal;}
+
+.b1{height:30px;background:url('/admin/images/b_2.gif') repeat-x;float:left;}
+.b1 div{background:url('/admin/images/b_3.gif') no-repeat 100% 0%;}
+.b1 div div{background:url('/admin/images/b_1.gif') no-repeat 0% 0%;height:30px;}
+.b1 a{color:white;white-space:nowrap;line-height:30px;margin:0px 10px;font-weight:bold;text-decoration:none;}
+.b1:hover{opacity: 0.7;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);}
+
+/* login.htm */
+#login_body {
+  background: none;
+}
+.login_container {
+  width: 662px;
+  padding-left: 338px;
+  padding-top: 144px;
+  height: 504px;
+  font-size: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  position: relative;
+}
+.login_container div {
+
+}
+.vhod_v_sist {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 37px;
+}
+.login_container input {
+  width: 324px;
+  height: 30px;
+  font-size: 18px;
+  margin-top: 6px;
+  margin-bottom: 26px;
+  padding-top: 8px;
+  padding-left: 3px;
+  border: none;
+  background: url(/admin/images/login_input.jpg) no-repeat top left;
+}
+.vhod_but {
+  width: 73px;
+  height: 33px;
+  background: url(/admin/images/vhod_but.jpg) no-repeat top left;
+  position: absolute;
+  top: 374px;
+  left: 335px;
+}
+.vhod_but:hover, .vihod:hover, .dobavit_vac:hover, .na_glav:hover, .vniz:hover, .vverh:hover, .ubrat:hover  {
+  opacity: 0.7;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+}
+/* login.htm end */
+
+.container {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  background: url(/admin/images/container_top.gif) no-repeat top left;
+}
+.vedit_container {
+  width: 1000px;
+  padding-top: 78px;
+  background: url(/admin/images/vedit_bottom.jpg) no-repeat bottom left;
+  position: relative;
+}
+.container2 {
+  width: 1000px;
+  padding-top: 78px;
+  position: relative;
+}
+.left {
+  width: 260px;
+  padding-left: 16px;
+  float: left;
+}
+
+.right {
+  width: 670px;
+  padding-top: 9px;
+  float: right;
+}
+.clear {
+  height: 0px;
+  clear: both;
+}
+
+.but_menu {
+  width: 236px;
+  height: 35px;
+  margin-top:-1px;
+  padding-top: 19px;
+  padding-left: 12px;
+  padding-right: 12px;
+  background: url(/admin/images/but.gif) no-repeat top left;
+  font-size: 18px;
+  color: #316b0a;
+  text-decoration: none;
+  display: block;
+}
+.but_menu:hover {
+  text-decoration: underline;
+}
+.active_menu {
+  width: 260px;
+  background: url(/admin/images/menu_fon.gif) no-repeat top left;
+}
+.active_menu a{
+  font-size: 18px;
+  color: #316b0a;
+  text-decoration: none;
+}
+.active_menu a:hover {
+  text-decoration: underline;
+}
+.active_menu2 {
+  width: 248px;
+  background: url(/admin/images/menu_fon2.gif) no-repeat bottom left;
+  padding-left: 12px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-size: 18px;
+  color: #67735e;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+
+}
+.active_menu ul {
+   margin-top: 6px;
+}
+.active_menu ul li a {
+  width: 220px;
+  height: 18px;
+  font-size: 12px;
+  padding-top: 5px;
+  padding-left: 11px;
+  padding-right: 11px;
+  color: #286300;
+  display: block;
+}
+.active_menu ul .active_li {
+  background: url(/admin/images/vac_li.gif) no-repeat top left;
+  font-weight: bold;
+  color: #67735e;
+  height: 18px;
+  text-decoration: none;
+  font-size: 12px;
+  padding-top: 5px;
+  padding-left: 11px;
+  padding-right: 0px;
+  font-size: 12px;
+  width:227px;
+}
+.active_menu ul li {
+  width: 237px;
+  height: 23px;
+}
+.active_menu ul li a:hover {
+  background: url(/admin/images/vac_li.gif) no-repeat top left;
+  font-weight: bold;
+  color: #67735e;
+  text-decoration: none;
+}
+.nav_polosa {
+
+}
+.nav_polosa a {
+  color: #519224;
+}
+.nav_polosa a:hover {
+  text-decoration: none;
+}
+.nav_polosa span {
+  color: #999999;
+}
+.width390 {
+  width: 390px;
+}
+.width260 {
+  width: 260px;
+}
+.width100 {
+  width: 100px;
+}
+.height22 {
+  height: 19px;
+}
+.height100 {
+  height: 100px;
+}
+.height180 {
+  height: 180px;
+}
+.vac_table {
+  margin-top: 10px;
+
+}
+.vac_table td {
+  padding: 5px;
+  padding-bottom: 10px;
+  vertical-align: top;
+}
+.color4e6b35 {
+  color: #4e6b35;
+}
+.color903a10 {
+  color: #903a10;
+}
+.left10 {
+  margin-left: 10px;
+}
+
+.footer {
+  height: 200px;
+  position: relative;
+}
+.save {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  position: absolute;
+  top: 59px;
+  left: 525px;
+}
+.save:hover {
+  text-decoration: underline;
+}
+.gorod {
+  width: 90px;
+  height: 26px;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 18px;
+  background: url(/admin/images/gorod.jpg) no-repeat top left;
+  color: #4e6b35;
+  float: left;
+}
+.gorod a{
+  color:#4E6B35;
+}
+.gorod2 {
+  width: 90px;
+  height: 26px;
+  padding-top: 5px;
+  font-size: 18px;
+  text-align: center;
+  float: left;
+}
+.gorod2 a {
+  color: #519224;
+  background: url(/admin/images/gorod_a.gif) repeat-x bottom left;
+  text-decoration: none;
+}
+.gorod2 a:hover {
+  background: none;
+}
+.sist_upr {
+  width: 300px;
+  font-weight: bold;
+  color: #ffffff;
+  position: absolute;
+  top: 18px;
+  left: 28px;
+}
+.vihod {
+  width: 71px;
+  height: 27px;
+  background: url(/admin/images/vihod.gif);
+  position: absolute;
+  top: 9px;
+  right: 28px;
+}
+.text_right {
+  text-align: right;
+}
+.dobavit_vac {
+  width: 165px;
+  height: 33px;
+  background: url(/admin/images/dobavit_vac.jpg) no-repeat top left;
+  position: absolute;
+  top: 78px;
+  right: 28px;
+}
+.post {
+  width: 668px;
+  margin-top: 9px;
+  background: url(/admin/images/post.gif) no-repeat bottom left;
+  line-height: 150%;
+  position: relative;
+  left: -22px;
+}
+.post td {
+  position: 2px;
+  padding-bottom: 9px;
+  vertical-align: top;
+}
+.post .td1 {
+  width: 26px;
+  padding-top: 3px;
+}
+.post .td2 {
+  font-size: 12px;
+  font-family: Georgia;
+  font-style: italic;
+  text-align:left;
+}
+
+.post .td3 {
+  width: 80px;
+  font-size: 11px;
+}
+.post .td4 {
+  width: 110px;
+}
+.ubrat {
+  width: 109px;
+  height: 25px;
+  background: url(/admin/images/ubrat.gif) no-repeat top left;
+  float: left;
+}
+
+.na_glav {
+  width: 109px;
+  height: 25px;
+  background: url(/admin/images/na_glav.gif) no-repeat top left;
+  float: left;
+}
+.vniz {
+  width: 19px;
+  height: 19px;
+  background: url(/admin/images/vniz.gif) no-repeat top left;
+  float: left;
+}
+.vverh {
+  width: 19px;
+  height: 19px;
+  background: url(/admin/images/vverh.gif) no-repeat top left;
+  margin-bottom: 2px;
+  float: left;
+}
+.post span {
+  color: #d6642c;
+  font-size: 14px;
+  font-family: Arial;
+  font-style: normal;
+}
+.goroda {
+  margin-top: 25px;
+  position: relative;
+  left: -12px;
+}
+.clear2 {
+  height: 16px;
+  clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
