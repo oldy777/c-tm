@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 15, 2012 at 04:34 PM
+-- Generation Time: Mar 15, 2012 at 06:22 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -173,7 +173,8 @@ INSERT INTO `modules` (`name`, `hidden`, `section`, `position`, `title`, `descr`
 ('perm', 0, 'access', 0, 'Права доступа', 'Редактирование прав доступа пользователей'),
 ('settings', 0, 'modules', 99, 'Настройки', NULL),
 ('makets', 0, 'struct', 2, 'Макеты', ''),
-('sql', 0, 'tools', 2, 'SQL', '');
+('sql', 0, 'tools', 2, 'SQL', ''),
+('groups', 0, 'access', 0, 'Группы ', NULL);
 
 -- --------------------------------------------------------
 
@@ -362,8 +363,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `id_user`, `id_account`, `cap`, `remote_addr`, `user_agent`, `storage`, `city`, `created`, `updated`) VALUES
-('b9e9c341ac3ca08edbbc5ecc89f40c53', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}htdocsorder|a:1:{i:1;s:2:"id";}htdocsdesc|a:1:{i:1;b:1;}', '', 1331801376, 1331816837),
-('60f518e0765b5f2dfb3f11efa8ee96d9', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}', '', 1331816941, 1331818218);
+('b9e9c341ac3ca08edbbc5ecc89f40c53', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'REQUEST_URI|s:7:"/admin/";makets|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}htdocsorder|a:1:{i:1;s:2:"id";}htdocsdesc|a:1:{i:1;b:1;}users|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}', '', 1331801376, 1331824407),
+('60f518e0765b5f2dfb3f11efa8ee96d9', 1, 0, '', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; rv:8.0.1) Gecko/20100101 Firefox/8.0.1', 'groups|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}users|a:2:{s:5:"order";s:2:"id";s:4:"desc";b:1;}', '', 1331824440, 1331824859);
 
 -- --------------------------------------------------------
 
@@ -389,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `passwd`, `email`, `name`, `blocked`, `created`, `updated`) VALUES
-(1, 'root', '63a9f0ea7bb98050796b649e85481845', 'admin@admin.ru', 'Administrator', 0, 0, 1331801059);
+(1, 'root', '63a9f0ea7bb98050796b649e85481845', 'admin@admin.ru', 'Administrator', 0, 0, 1331824407);
 
 -- --------------------------------------------------------
 
