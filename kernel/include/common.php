@@ -17,12 +17,51 @@ function arr_manth() {
     );
 }
 
-function arr_years($start_year = 2010) {
+/**
+ *
+ * @param type $start_year начало отсчета
+ * @param type $end конец отсчета
+ * @param type $revers в обратную сторону
+ * @return array 
+ */
+function arr_years($start_year = 2010, $end = '',$revers = false) {
     $arr = array();
-    $now = date('Y');
-    for($i=$start_year; $i<=$now;$i++)
+    $now = $end ? $end:date('Y');
+    if(!$revers)
+        for($i=$start_year; $i<=$now;$i++)
+            $arr[$i] = $i;
+    else
+        for($i=$now; $i>=$start_year;$i--)
+            $arr[$i] = $i;
+    return $arr;
+}
+
+function arr_days($end_day = 31) {
+    $arr = array();;
+    for($i=1; $i<=$end_day;$i++)
         $arr[$i] = $i;
     return $arr;
+}
+
+/**
+ *
+ * @param array $arr массив ключ-значение, значение - описание
+ * @param str $value  выбранный элемент
+ * @param str $htmlOpt html опции
+ * @return string 
+ */
+function getOptions($arr,$value='',$htmlOpt='')
+{
+    $str = '';
+    foreach ($arr as $k=>$v) 
+    {
+        if($value)
+            $str .= '<option value="'.$k.'" '.($k==$value ? 'selected':'').' '.($htmlOpt ? $htmlOpt:'').' >'.$v.'</option>';
+        else
+            $str .= '<option value="'.$k.'" '.($htmlOpt ? $htmlOpt:'').'>'.$v.'</option>';
+    }
+    
+    return $str;
 }
 
 function parse_date($date){
