@@ -1,3 +1,11 @@
+<? 
+   $content = '';
+   switch($kernel['path'][1]){
+      default:
+        $content = module("pages/typicle.php", array(), true);
+        break;
+   }
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -5,12 +13,6 @@
 </head>
 <body>
 <a href="/admin/">Перейти в админку</a>
-<? 
-   switch($kernel['path'][1]){
-      default:
-        module("pages/typicle.php");
-        break;
-   }
-?>
+<?=$content?>
 </body>
 </html>
