@@ -1,0 +1,153 @@
+body, #wpbody, .form-table .pre {
+    color: #333333;
+}
+body {
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 1.4em;
+}
+
+.login * {
+    margin: 0;
+    padding: 0;
+}
+a, #adminmenu a, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-items a.delete, .plugins a.delete, .ui-tabs-nav a {
+    color: #21759B;
+}
+a, input, select {
+    outline: 0 none;
+}
+div.error, .login #login_error {
+    background-color: #FFEBE8;
+    border-color: #CC0000;
+}
+input.button-primary, button.button-primary, a.button-primary {
+    background: url("http://expert.com.ua/wp-admin/images/button-grad.png") repeat-x scroll left top #21759B;
+    border-color: #298CBA;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.login {
+    background: none repeat scroll 0 0 #FBFBFB;
+    min-width: 0;
+}
+body, #wpbody, .form-table .pre {
+    color: #333333;
+}
+body {
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 1.4em;
+    min-width: 600px;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#login {
+    margin: auto;
+    padding: 114px 0 0;
+    width: 320px;
+}
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    display: block;
+    font-weight: bold;
+}
+
+div.error, .login #login_error {
+    background-color: #FFEBE8;
+    border-color: #CC0000;
+}
+#login_error, .login .message {
+    margin: 0 0 16px 8px;
+    padding: 12px;
+}
+.widefat, div.updated, div.error, .wrap .add-new-h2, textarea, input[type="text"], input[type="password"], input[type="file"], input[type="button"], input[type="submit"], input[type="reset"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="url"], select, .tablenav .tablenav-pages a, .tablenav-pages span.current, #titlediv #title, .postbox, #postcustomstuff table, #postcustomstuff input, #postcustomstuff textarea, .imgedit-menu div, .plugin-update-tr .update-message, #poststuff .inside .the-tagcloud, .login form, #login_error, .login .message, #menu-management .menu-edit, .nav-menus-php .list-container, .menu-item-handle, .link-to-original, .nav-menus-php .major-publishing-actions .form-invalid, .press-this #message, #TB_window, .tbtitle, .highlight, .feature-filter, #widget-list .widget-top, .editwidget .widget-inside {
+    border-radius: 3px 3px 3px 3px;
+    border-style: solid;
+    border-width: 1px;
+}
+.login form {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5E5E5;
+    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+    font-weight: normal;
+    margin-left: 8px;
+    padding: 26px 24px 46px;
+}
+
+.login label {
+    color: #777777;
+    font-size: 14px;
+}
+
+.login form .input {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    font-size: 24px;
+    font-weight: 200;
+    line-height: 1;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: medium none;
+    padding: 3px;
+    width: 100%;
+}
+
+#login form p {
+    margin-bottom: 0;
+}
+.login form .forgetmenot {
+    float: left;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+.submit {
+    border-color: #DFDFDF;
+}
+
+.login .button-primary {
+    float: right;
+    font-size: 13px !important;
+    line-height: 16px;
+    padding: 3px 10px;
+}
+input.button-primary, button.button-primary, a.button-primary {
+    background: url("http://expert.com.ua/wp-admin/images/button-grad.png") repeat-x scroll left top #21759B;
+    border-color: #298CBA;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+.submit input, .button, input.button, .button-primary, input.button-primary, .button-secondary, input.button-secondary, .button-highlighted, input.button-highlighted, #postcustomstuff .submit input {
+    -moz-box-sizing: content-box;
+    border-radius: 11px 11px 11px 11px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-size: 12px !important;
+    line-height: 13px;
+    padding: 3px 8px;
+    text-decoration: none;
+}
+
+.login h1 a {
+    background: url("/admin/images/c-tm-logo.jpg") no-repeat scroll center top transparent;
+    display: block;
+    height: 115px;
+    overflow: hidden;
+    padding-bottom: 15px;
+    text-indent: -9999px;
+    width: 200px;
+    margin-left: 65px;
+}
