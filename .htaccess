@@ -7,7 +7,7 @@ ErrorDocument 404 /errdoc.php
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-s
   RewriteCond %{REQUEST_FILENAME} !-l
-  RewriteRule ^(.+)$ /errdoc.php?%{QUERY_STRING} [L]
+  RewriteRule ^(.+)$ /index.php?%{QUERY_STRING} [L]
 </IfModule>
 
 php_flag register_globals off

@@ -1,8 +1,19 @@
 <script type="JavaScript/text" src="/jscript/calendar.js"></script>
+<script>
+$(function() {
+		$( "#tabs" ).tabs();
+	});
+</script>
 <form action="?mod=<?=$_GET['mod']?>&act=save" method="post" enctype="multipart/form-data">
+<div id="tabs">
+    <ul>
+        <?foreach($args['mod_sections'] as $s){?>
+            <li><a href="#tabs-<?=$s['name']?>"><?=$s['title']?></a></li>
+        <?}?>
+    </ul>
 <?foreach($args['mod_sections'] as $s){?>
   <?if(sizeof($s['fields'])>0){?>
-  <p><b><?=$s['title']?>: </b></p>
+  <div id="tabs-<?=$s['name']?>">
   <table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
     <?foreach($s['fields'] as $f){?>
       <?if($f['type']=='text'){?>
@@ -117,6 +128,7 @@
       <?}?>
     <?}?>
   </table>
+  </div>
   <?}?>
 <?}?>
 <table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
@@ -124,4 +136,6 @@
   <td width="30%"></td><td><input type="submit" value="Сохранить"></td>
 </tr>
 </table>
+</div>
 </form>
+

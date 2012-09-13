@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title><?=htmlspecialchars($args['title'])?> :: <?=htmlspecialchars($args['subtitle'])?></title>
@@ -9,9 +10,9 @@
 <script language="javascript" type="text/javascript" src="/jscript/common.js"></script>
 <script language="javascript" type="text/javascript" src="/jscript/calendar.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/script.js"></script>
-<link type="text/css" href="/admin/ui_sortable/css/sunny/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
-<script src="/admin/ui_sortable/js/jquery-1.3.2.min.js" type="text/javascript"></script>
-<script src="/admin/ui_sortable/js/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+<link type="text/css" href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+<script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 </head>
 <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
 <style>
@@ -41,7 +42,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 	<!-- main table -->
 	<table width="100%" height="100%" cellpadding="0" cellspacing="1" style="border:1px solid #C7DFE3"><tr>
-	<td width="29%" bgcolor="#EDF8FF" background="/admin/images/bg01.gif" valign="top" id="sidebar" nowrap>
+	<td width="250" bgcolor="#EDF8FF" background="/admin/images/bg01.gif" valign="top" id="sidebar" nowrap>
 
 		<table width="100%" cellpadding="0" cellspacing="0">
 		<tr>
@@ -119,8 +120,8 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 		</table>
 
 	</td>
-	<td width="1%" bgcolor="#B9D7DC" onclick="onsidebar();return false;" style="cursor:hand" title="скрыть/показать панель модулей" id="spliter"><a href="javascript:onsidebar()"><img src="/admin/images/splitter.gif" width="9" height="25" border="0" alt="" ></a></td>
-	<td width="70%" valign="top" bgcolor="#F8FCFF" style="padding:20px 10px 10px 20px; background:url(/admin/images/head_bg2.gif) repeat-x top #F8FCFF" id="workspace">
+	<td width="10" bgcolor="#B9D7DC" onclick="onsidebar();return false;" style="cursor:hand" title="скрыть/показать панель модулей" id="spliter"><a href="javascript:onsidebar()"><img src="/admin/images/splitter.gif" width="9" height="25" border="0" alt="" ></a></td>
+	<td  valign="top" bgcolor="#F8FCFF" style="padding:20px 10px 10px 20px; background:url(/admin/images/head_bg2.gif) repeat-x top #F8FCFF" id="workspace">
 
 	<!-- content -->
 	<noscript><div class="error">В вашем броузере не включена поддержка скриптов</div></noscript>
@@ -153,8 +154,13 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 	<!-- module -->
 <?if($args['ok']){?><div align="center" class="error">Данные сохранены.</div><?}?>
 <?if($args['error']){?><div align="center" class="error">Запись не найдена!</div><?}?>
-
-	<?=$args['content']?>
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+            <?=$args['content']?>
+        </td>
+    </tr>
+</table>
 	<!--/module -->
 <?}elseif($errors['notfound']){?>
 	<!-- nofound -->
