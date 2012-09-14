@@ -27,11 +27,19 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         }
         else
         {
-            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $old AND $new AND id <> $id order by pos");
+            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $old AND ".($new-1)." AND id <> $id order by pos");
             $args['items'] = $q->get_allrows();
             
             foreach($args['items'] as $key => $item){
             $i = $item['pos']-1;
+                    $q->query("update ".$table." SET pos=$i WHERE id='".$item['id']."'");
+            }
+            
+            $q->query("select * from ".$table." where 1=1 AND pos >=$new AND id <> $id order by pos");
+            $args['items'] = $q->get_allrows();
+            
+            foreach($args['items'] as $key => $item){
+            $i = $item['pos']+1;
                     $q->query("update ".$table." SET pos=$i WHERE id='".$item['id']."'");
             }
         }

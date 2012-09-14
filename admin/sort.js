@@ -45,7 +45,7 @@ function newpos(obj,act){
                 {
                     var pred = parseInt($(obj).parent().parent().prevAll( '.container:first' ).children('.item').children('.inp').val());
                     
-                    if(pred){
+                    if(pred || pred == 0){
                         new_pos = pred+1;
                     }
                     else
