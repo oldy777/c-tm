@@ -12,5 +12,11 @@ CKEDITOR.editorConfig = function( config )
 	// config.uiColor = '#AADC6E';
   config.extraPlugins = 'youtube';
   config.toolbar_Full.push(['Youtube']);
-  config.filebrowserUploadUrl = '../ckupload.php';
+//  config.filebrowserUploadUrl = '../ckupload.php';
+  config.filebrowserBrowseUrl = '/editor/plugins/kcfinder/browse.php?type=files';
+   config.filebrowserImageBrowseUrl = '/editor/plugins/kcfinder/browse.php?type=images';
+   config.filebrowserFlashBrowseUrl = '/editor/plugins/kcfinder/browse.php?type=flash';
+   config.filebrowserUploadUrl = '/editor/plugins/kcfinder/upload.php?type=files';
+   config.filebrowserImageUploadUrl = '/editor/plugins/kcfinder/upload.php?type=images';
+   config.filebrowserFlashUploadUrl = '/editor/plugins/kcfinder/upload.php?type=flash';
 };
