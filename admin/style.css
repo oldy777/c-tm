@@ -42,7 +42,7 @@ fieldset	{ margin:0 0 0.5em 0; padding:2px; border:1px solid #DADBE5; }
 legend		{ font-size:0.8em; }
 legend	a	{ text-decoration:none; font-weight:bold; padding-left:12px; background:url('/admin/images/rolldown.gif') no-repeat center left; }
 /* tables */
-.table		{ font-size:0.75em; border:1px solid #DADBE5; }
+.table		{ font-size:12px; border:1px solid #DADBE5; }
 .table tr th	{ background:url('/admin/images/th1.gif') repeat-x top #E7EFF5; border-top:1px solid #BEC4DA; border-bottom:1px solid #BEC4DA; color:#000066; white-space:nowrap; }
 .table thead th	{ background:url('/admin/images/th.gif') repeat-x top #F0F7FF; border-top:1px solid #BEC4DA; border-bottom:1px solid #BEC4DA; color:#000066; white-space:nowrap; }
 .table th.error	{ color:red; white-space:nowrap; }
@@ -69,6 +69,12 @@ legend	a	{ text-decoration:none; font-weight:bold; padding-left:12px; background
     background: url("/admin/images/tablesort-th.gif") repeat-x scroll center top #F0F7FF;
     border:none;
     border-right: 1px solid #DADBE5;
+}
+
+.table tr td img.ui-datepicker-trigger{
+     float: left;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .dialog		{ border:1px solid #C7DFE3; }

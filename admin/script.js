@@ -14,7 +14,12 @@ $(document).ready(function(){
         $(this).removeClass('hover');
     });
     
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        showOn: "button",
+        buttonImage: "/admin/images/calendar.png",
+        buttonImageOnly: true,
+        buttonText:''
+    });
 });
 
 function onsidebar()
