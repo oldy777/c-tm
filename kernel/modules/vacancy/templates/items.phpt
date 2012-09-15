@@ -33,31 +33,41 @@ $width=98;
 if($args['mod_pos']) $width=$width-3;
 $width=ceil($width/$args['mod_view']);
 ?>
-<table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
+<table width="100%" border="0" cellspacing="0" cellpadding="4" class="table tablelist">
   <thead>
     <tr>
       <th width="1%">#</th>
   <?if($args['mod_pos']){?>
-      <th width="3%">&nbsp;</th>
+      <th width="3%">Поз.</th>
   <?}?>
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
       <th width="<?=$width?>%"><?=$f['title']?></th>
   <?}?>
 <?}?>
-      <th title="команды" width="1%">&nbsp;</th>
+      <th title="команды" width="1%">
+          <img width="16" height="16" border="0" src="/admin/images/tools.png">
+      </th>
     </tr>
   </thead>
  <tbody>
-<?foreach($args['items'] as $i){?>
-  <tr align="center" class="container">
+<?$cnt = 0;foreach($args['items'] as $i){?>
+  <tr align="center" class="container <?=((++$cnt%2)==0 ? 'odd':'')?>">
     <td style="font-size:11px;color:#999;"><?=$i['id']?></td>
   <?if($args['mod_pos']){?>
     <td class="item" id="<?=$i['pos']?>" style="font-size:11px;color:#999;"><input class="inp" id="<?=$i['id']?>" style="width:40px; display:none; font-size:11px; text-align:center;" type="text" value="<?=$i['pos']?>" rel="<?=$args['mod_table_name']?>" /><span style="display:block; width:40px;"><?=$i['pos']?></span></td>
   <?}?>
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
-    <td align="left" id="<?=$i['id']?>"><?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?></td>
+    <td align="left" id="<?=$i['id']?>">
+        <?if(isset($f['link']) && $f['link']==1){?>
+             <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?>" title="редактировать">
+                    <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
+             </a>
+        <?}else{?>
+             <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
+        <?}?>
+    </td>
   <?}?>
 <?}?>
     <td nowrap="nowrap">

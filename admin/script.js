@@ -7,6 +7,15 @@ window.onload = function()
   if(parseInt(getcookie('sectionaccesshide'))) { onmodsection('sectionaccess'); }
   if(parseInt(getcookie('sectionloghide'))) { onmodsection('sectionlog'); }
 }
+$(document).ready(function(){
+    $('.table tr').mouseover(function(){
+        $(this).addClass('hover');
+    }).mouseout(function(){
+        $(this).removeClass('hover');
+    });
+    
+    $( "#datepicker" ).datepicker();
+});
 
 function onsidebar()
 {

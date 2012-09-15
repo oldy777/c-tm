@@ -17,7 +17,7 @@ $args['mod_table_name']="vacancy";             # Имя таблицы
 $args['mod_pos']=true;                  # Вкл/выкл позиция
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
-  Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1),
+  Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1, 'link'=>1),
   Array('name'=>'responsibility','title'=>'Обязанности','type'=>'editor','view'=>0),
   Array('name'=>'requirements','title'=>'Требования','type'=>'editor','view'=>0),
   Array('name'=>'terms','title'=>'Условия','type'=>'editor','view'=>0),
@@ -40,40 +40,6 @@ switch($action){
             $images=$q->get_allrows();
             $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
           };
-        }
-        if($f['type']=="file"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
-          }
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'",
-              $kernel['db']->next_id('files'), $args['mod_table_name'], $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
-          }
         }
         if($f['type']=="varchar"){
           $val[$f['name']]=$_POST[$f['name']];
@@ -136,40 +102,7 @@ switch($action){
             $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
           };
         }
-        if($f['type']=="file"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
-          }
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
 
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'",
-              $kernel['db']->next_id('files'), $args['mod_table_name'], $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
-          }
-        }
         if($f['type']=="varchar"){
           $val[$f['name']]=$_POST[$f['name']];
         }

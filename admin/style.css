@@ -16,6 +16,7 @@ p		{ font-size:0.75em; }
 /*.toolbar a	{ margin:0px 10px 0px 10px; }*/
 .path		{ font-size:0.7em; color:#0066FF; }
 .global		{ font-size:0.7em; float:right; text-align:center; margin-left:1.5em; }
+.tosite         { float: left;}
 .copy		{ font-size:0.6em; color:#666666; padding-bottom:3px; }
 .command	{ font-size:0.95em; font-weight:bold; padding-top:3px; }
 .command ul	{ font-size:0.8em; font-weight:normal; margin:3px 0px 0px 18px; padding:0px; list-style-image:url('/admin/images/bullet1.gif'); }
@@ -52,6 +53,24 @@ legend	a	{ text-decoration:none; font-weight:bold; padding-left:12px; background
 .table caption	{ font-size:1.2em; padding-bottom:0; }
 .table .group   { background:#003E93; color:#FFFFFF; height:30px; }
 
+.tablelist{
+    border-right: none;
+}
+.tablelist td{
+    background: #fff;
+}
+.tablelist .odd td{
+    background: #F6F6F6;
+}
+.tablelist tr.hover td{
+    background: #E8ECF0;
+}
+.tablelist thead th {
+    background: url("/admin/images/tablesort-th.gif") repeat-x scroll center top #F0F7FF;
+    border:none;
+    border-right: 1px solid #DADBE5;
+}
+
 .dialog		{ border:1px solid #C7DFE3; }
 .dialog th	{ background:url('/admin/images/th.gif') repeat-x top #F0F7FF; border-top:1px solid #CBD1E2; border-bottom:1px solid #CBD1E2; }
 .dialog .main	{ background:url('/admin/images/dialog_bg.gif') repeat-x top #F8FCFF; }
@@ -82,3 +101,38 @@ select		{ font-size:9pt; border:1px solid #C7DFE3; color:#336699; }
 
 .control	{ font-size:10pt; background-color:#FFFFFF; border:1px solid #C7DFE3; color:#336699; }
 .txt		{ font-size:11pt; border:0px solid #C7DFE3; color:#336699; }
+
+
+#tabs ul{
+    line-height: 14px;
+    font-size: 11px;
+}
+#tabs ul li a{
+    font-size: 11px;
+}
+
+.button, input[type="submit"] {
+    background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #C63929 50%, #EE432E 100%) repeat scroll 0 0 transparent;
+    background-color: #B51700 ;
+    border: 1px solid #951100;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 0 1px rgba(255, 115, 100, 0.4) inset, 0 1px 3px #333333;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 1;
+    margin: 10px 13px 5px 0;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+}
+
+.button:hover, input[type="submit"]:hover{
+    opacity: 0.7;
+}

@@ -1,4 +1,4 @@
-<script type="JavaScript/text" src="/jscript/calendar.js"></script>
+
 <form action="?mod=<?=$_GET['mod']?>&act=additem" method="post" enctype="multipart/form-data">
   <table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
 <?foreach($args['mod_fields'] as $f){?>
@@ -84,9 +84,7 @@
   <tr>
     <th width="30%" align="right"><?=$f['title']?>:</th>
     <td width="70%">
-      <div id="created_leer<?=$f['name']?>" style="position: absolute; top: 200; left: 10; z-index: 666; visibility: hidden;"></div>
-      <input type="text" id="<?=$f['name']?>" name="<?=$f['name']?>" value="<?=strftime('%d.%m.%Y', time())?>" class="input" style="width:90px" readonly /><?($errors['place']? ' style="color:red"' : '')?>&nbsp;<input type="button" class="button" style="width:18px" value=" &darr; " onMouseDown="showCalendar(this, 'created_leer<?=$f['name']?>', 'created_a', '<?=$f['name']?>');" />
-      <a name="created_a">&nbsp;</a>
+      <input type="text" name="<?=$f['name']?>" id="datepicker" value="<?=strftime('%d.%m.%Y', time())?>" class="input" style="width:90px" readonly />
     </td>
   </tr>
   <?}?>

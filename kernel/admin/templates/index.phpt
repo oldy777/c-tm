@@ -7,12 +7,14 @@
 <link href="/admin/style.css" type="text/css" rel="stylesheet" >
 <link rel="shortcut icon" href="/admin/favicon.ico" type="image/x-icon" >
 <link rel="shortcut icon" href="/admin/favicon.gif" type="image/gif" >
+<script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript" src="/jscript/common.js"></script>
 <script language="javascript" type="text/javascript" src="/jscript/calendar.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/script.js"></script>
 <link type="text/css" href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
-<script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="/js/datepickerRU.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="/jscript/calendar.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
 <style>
@@ -20,17 +22,18 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 </style>
 <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- head -->
-<tr height="90">
+<tr height="60">
 <td width="3%"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 <td width="94%">
-	<table width="100%" height="90" cellpadding="0" cellspacing="0">
-	<tr valign="middle">
-	<td align="left"></td>
-	<td>
-	<div class="global"><a href="/admin/logout.php"><img src="/admin/images/icon_exit.gif" width="28" height="28" alt="Выйти из системы" ></a><br ><a href="/admin/logout.php">выход</a></div>
-	</td>
-	</tr>
-	</table>
+    <table width="100%" height="60" cellpadding="0" cellspacing="0">
+        <tr valign="middle">
+            <td align="left">&nbsp</td>
+            <td>
+                <div class="global"><a href="/admin/logout.php"><img src="/admin/images/icon_exit.gif" width="28" height="28" alt="Выйти из системы" ></a><br ><a href="/admin/logout.php">выход</a></div>
+                <div class="global"><a href="/"><img src="/admin/images/icon_start.gif" width="28" height="28" alt="На сайт" ></a><br ><a href="/">На сайт</a></div>
+            </td>
+        </tr>
+    </table>
 </td>
 <td width="3%"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 </tr>
@@ -121,7 +124,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 	</td>
 	<td width="10" bgcolor="#B9D7DC" onclick="onsidebar();return false;" style="cursor:hand" title="скрыть/показать панель модулей" id="spliter"><a href="javascript:onsidebar()"><img src="/admin/images/splitter.gif" width="9" height="25" border="0" alt="" ></a></td>
-	<td  valign="top" bgcolor="#F8FCFF" style="padding:20px 10px 10px 20px; background:url(/admin/images/head_bg2.gif) repeat-x top #F8FCFF" id="workspace">
+	<td width="" valign="top" bgcolor="#F8FCFF" style="padding:20px 10px 10px 20px; background:url(/admin/images/head_bg2.gif) repeat-x top #F8FCFF" id="workspace">
 
 	<!-- content -->
 	<noscript><div class="error">В вашем броузере не включена поддержка скриптов</div></noscript>
@@ -161,6 +164,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
         </td>
     </tr>
 </table>
+	
 	<!--/module -->
 <?}elseif($errors['notfound']){?>
 	<!-- nofound -->
@@ -222,4 +226,6 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 </tr>
 <!--/foot -->
 </table>
+
+
 </html>
