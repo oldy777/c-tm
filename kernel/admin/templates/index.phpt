@@ -132,7 +132,11 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 	<tr>
 	<td>
 	<h1><?=htmlspecialchars($args['subtitle']==''? $args['title'] : $args['subtitle'])?></h1>
-	<div class="path"><img src="/admin/images/bullet3.gif" width="9" height="7" alt="" >&nbsp;&nbsp;<a href="/admin/">CMS</a> / <a href="/admin/?mod=<?=htmlspecialchars($args['mod'])?>"><?=htmlspecialchars($args['title'])?></a><?=($args['subtitle']? ' / '.htmlspecialchars($args['subtitle']) : '')?></div>
+	<div class="path"><img src="/admin/images/bullet3.gif" width="9" height="7" alt="" >&nbsp;&nbsp;<a href="/admin/">CMS</a>
+            <?foreach ($args['mod_parents'] as $v){?>
+                / <a href="/admin/?mod=<?=htmlspecialchars($v['name'])?>"><?=htmlspecialchars($v['title'])?></a>
+            <?}?>
+            / <a href="/admin/?mod=<?=htmlspecialchars($args['mod'])?>"><?=htmlspecialchars($args['title'])?></a><?=($args['subtitle']? ' / '.htmlspecialchars($args['subtitle']) : '')?></div>
 	</td>
 <?if($args['help']){?>
 	<td><div class="global"><a href="<?=htmlspecialchars($args['help'])?>"><img src="/admin/images/icon_help.gif" width="28" height="28" alt="Вызвать справку" ></a><br ><a href="<?=htmlspecialchars($args['help'])?>">помощь</a></div></td>

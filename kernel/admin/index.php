@@ -74,6 +74,19 @@ if(!$errors['perm'] && $modpath!='')
   $args['fullpath'] = $result['fullpath'];
   $args['help'] = $result['help'];
   $args['mod'] = $mod;
+  $args['mod_parents'] = array();
+  if($m['parent_id']!=0)
+  {
+      $arr = $out = array();
+      $q->query("SELECT m.* FROM modules m");
+      $tmp = $q->get_allrows();
+      foreach ($tmp as $v) {
+          $arr[$v['id']] = $v;
+      }
+      
+      $args['mod_parents'] = getTreeBranch($arr,$m['parent_id'],$out);
+      if($args['mod_parents']) $args['mod_parents'] = array_reverse ($args['mod_parents']);
+  }
   settype($args['commands'], 'array');
   $args['content'] = ob_get_contents();
   ob_clean();

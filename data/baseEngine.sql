@@ -154,27 +154,30 @@ INSERT INTO `makets` (`id`, `title`, `content`, `created`, `updated`, `file`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `modules` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
+  `parent_id` int(11) unsigned NOT NULL DEFAULT '0',
   `hidden` tinyint(4) unsigned DEFAULT NULL,
   `section` varchar(20) NOT NULL DEFAULT '',
   `position` int(8) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `descr` text,
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name` (`name`),
+PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `modules`
 --
 
-INSERT INTO `modules` (`name`, `hidden`, `section`, `position`, `title`, `descr`) VALUES
-('htdocs', 0, 'struct', 1, 'Структура сайта', ''),
-('users', 0, 'access', 0, 'Аккаунты', 'Пользователи системы'),
-('perm', 0, 'access', 0, 'Права доступа', 'Редактирование прав доступа пользователей'),
-('settings', 0, 'modules', 99, 'Настройки', NULL),
-('makets', 0, 'struct', 2, 'Макеты', ''),
-('sql', 0, 'tools', 2, 'SQL', ''),
-('groups', 0, 'access', 0, 'Группы ', NULL);
+INSERT INTO `modules` (`id`,`name`, `hidden`, `section`, `position`, `title`, `descr`) VALUES
+(1,'htdocs', 0, 'struct', 1, 'Структура сайта', ''),
+(2,'users', 0, 'access', 0, 'Аккаунты', 'Пользователи системы'),
+(3,'perm', 0, 'access', 0, 'Права доступа', 'Редактирование прав доступа пользователей'),
+(4,'settings', 0, 'modules', 99, 'Настройки', NULL),
+(5,'makets', 0, 'struct', 2, 'Макеты', ''),
+(6,'sql', 0, 'tools', 2, 'SQL', ''),
+(7,'groups', 0, 'access', 0, 'Группы ', NULL);
 
 -- --------------------------------------------------------
 
