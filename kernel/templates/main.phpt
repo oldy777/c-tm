@@ -17,6 +17,13 @@
 </head>
 <body>
 <a href="/admin/">Перейти в админку</a>
+<br /><br /><br />
+<fieldset>
+    <legend>Возможности</legend>
+    <a href="/sitemap/">Карта сайта</a>
+</fieldset>
 <?=$content?>
+
+
 </body>
 </html>

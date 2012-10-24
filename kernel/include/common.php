@@ -438,4 +438,56 @@ function maket($id, $args=array())
   return NULL;
 }
 
+/**
+ * Получение одной ветви дерева
+ * $arr - массив вида
+ * $arr[$id] = array('parent_id'=>...,'name'=>'value',....)
+ * **/
+function getTreeBranch($arr,$id,$out){
+    if(isset($arr[$id]))
+    {
+        $out[] = $arr[$id];
+        if($arr[$id]['parent_id'] != 0)
+        {
+            $out = getTreeBranch($arr,$arr[$id]['parent_id'],$out);
+        }
+    }
+    return $out;
+}
+
+function make_password($num_chars) {
+    if ((is_numeric($num_chars)) &&
+            ($num_chars > 0) && (!is_null($num_chars))) {
+        $password = '';
+        $accepted_chars = 'abcdefghijklmnopqrstuvwxyzl234567890'; // Seed the generator if necessary. srand(((int)((double)microtime()*1000003))  );
+        for ($i = 0; $i < $num_chars; $i++) {
+            $random_number = rand(0, (strlen($accepted_chars) - 1));
+            $password .= $accepted_chars[$random_number];
+        }
+        return $password;
+    }
+}
+
+/**
+ * Путь для картинок с ресайзом или без
+ * @param str $name имя картинки
+ * @param bool $resize true - с ресайзом, false - без ресайза
+ * @param int $w ширина
+ * @param int $h высота
+ * @param str $type тип ресайза thumb,crop,resize,i_resize,resize_png,thumb_png
+ */
+function getImgPath($name, $resize, $w, $h, $type='')
+{
+    $str = '';
+    if(!$resize)
+    {
+        $str = '/upload/images/'.$name;
+    }
+    else
+    {
+        $str = '/getimg.php?w='.$w.'&h='.$h.($type ? '&m='.$type:'').'&path='.$name;
+    }
+    return $str;
+}
+
 ?>

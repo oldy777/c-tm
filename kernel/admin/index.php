@@ -61,6 +61,7 @@ if($modpath!='' && $kernel['id_user']!=1) // root full access
   }
 }
 
+$args['mod_parents'] = array(); // for breadcrums
 // run module
 if(!$errors['perm'] && $modpath!='')
 {
@@ -74,7 +75,6 @@ if(!$errors['perm'] && $modpath!='')
   $args['fullpath'] = $result['fullpath'];
   $args['help'] = $result['help'];
   $args['mod'] = $mod;
-  $args['mod_parents'] = array();
   if($m['parent_id']!=0)
   {
       $arr = $out = array();

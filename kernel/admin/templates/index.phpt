@@ -8,13 +8,10 @@
 <link rel="shortcut icon" href="/admin/favicon.ico" type="image/x-icon" >
 <link rel="shortcut icon" href="/admin/favicon.gif" type="image/gif" >
 <script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
-<script language="javascript" type="text/javascript" src="/jscript/common.js"></script>
-<script language="javascript" type="text/javascript" src="/jscript/calendar.js"></script>
 <script language="javascript" type="text/javascript" src="/admin/script.js"></script>
 <link type="text/css" href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 <script src="/js/datepickerRU.js" type="text/javascript"></script>
-<script language="javascript" type="text/javascript" src="/jscript/calendar.js"></script>
 </head>
 <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
 <style>

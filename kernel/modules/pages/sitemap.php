@@ -6,7 +6,7 @@ $template = '';
 
 
 
-$q->query("SELECT * FROM ptree WHERE id<>9 AND id_parent<>9  ORDER by pos");
+$q->query("SELECT * FROM ptree WHERE id<>9 AND id_parent<>9 AND hidden = 0  ORDER by pos");
 
 $tmp = $q->get_allrows();
 

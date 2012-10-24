@@ -1,4 +1,4 @@
-<script type="JavaScript/text" src="/jscript/calendar.js"></script>
+
 <script>
 $(function() {
 		$( "#tabs" ).tabs();
