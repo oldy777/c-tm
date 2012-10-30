@@ -476,7 +476,7 @@ function make_password($num_chars) {
  * @param int $h высота
  * @param str $type тип ресайза thumb,crop,resize,i_resize,resize_png,thumb_png
  */
-function getImgPath($name, $resize, $w, $h, $type='')
+function getImgPath($name, $resize, $w=0, $h=0, $type='')
 {
     $str = '';
     if(!$resize)
@@ -485,7 +485,7 @@ function getImgPath($name, $resize, $w, $h, $type='')
     }
     else
     {
-        $str = '/getimg.php?w='.$w.'&h='.$h.($type ? '&m='.$type:'').'&path='.$name;
+         $str = '/getimg/'.$w.'/'.$h.($type ? '/'.$type:'').'/'.$name;
     }
     return $str;
 }

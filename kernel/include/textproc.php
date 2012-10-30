@@ -401,7 +401,24 @@ function num2str($num) {
     }
     else $out[] = $nul;
     $out[] = morph(intval($rub), $unit[1][0],$unit[1][1],$unit[1][2]); // rub
-    $out[] = $kop.' '.morph($kop,$unit[0][0],$unit[0][1],$unit[0][2]); // kop
+    
+    if($kop)
+    {
+        $kop = sprintf("%015.2f", $kop);
+        foreach(str_split($kop,3) as $uk=>$v) { // by 3 symbols
+            if (!intval($v)) continue;
+            $uk = sizeof($unit)-$uk-1; // unit key
+            $gender = $unit[$uk][3];
+            list($i1,$i2,$i3) = array_map('intval',str_split($v,1));
+            // mega-logic
+            $out[] = $hundred[$i1]; # 1xx-9xx
+            if ($i2>1) $out[]= $tens[$i2].' '.$ten[$gender][$i3]; # 20-99
+            else $out[]= $i2>0 ? $a20[$i3] : $ten[$gender][$i3]; # 10-19 | 1-9
+            // units without rub & kop
+            if ($uk>1) $out[]= morph($v,$unit[$uk][0],$unit[$uk][1],$unit[$uk][2]);
+        }
+        $out[] = morph($kop,$unit[0][0],$unit[0][1],$unit[0][2]); // kop
+    }
     return trim(preg_replace('/ {2,}/', ' ', join(' ',$out)));
 }
 
