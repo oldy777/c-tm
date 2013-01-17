@@ -192,6 +192,5 @@ header('Content-type: text/html; charset=utf-8');
 $kernel['content_length'] = ob_get_length();  // content length
 header('Content-Length: '. $kernel['content_length']);
 
-flush();
 
 ?>

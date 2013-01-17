@@ -20,6 +20,21 @@ $(document).ready(function(){
         buttonImageOnly: true,
         buttonText:''
     });
+    $("a.lightbox").fancybox();
+    $('.del_fr_foto').live('click',function(){
+        var img = $(this).attr('rel'),
+        cat = $(this).attr('cat'),
+        obj = $(this);
+        $.post('/ajax/delimg.php', {img:img,cat:cat}, function(data){
+            if(data == 1)
+            {
+                $(obj).parent().remove();
+            }
+            else
+                alert('Ошибка доступа');
+        })
+        return false;
+    });
 });
 
 function onsidebar()

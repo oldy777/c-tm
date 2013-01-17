@@ -15,18 +15,32 @@ function sess_read($id)
   $q->free_result();
   if(!empty($r) && (($kernel['config']['session']['remote_addr'] && $_SERVER["REMOTE_ADDR"]!=$r['remote_addr']) || ($kernel['config']['session']['user_agent'] && $_SERVER["HTTP_USER_AGENT"]!=$r['user_agent'])))
    { $r = NULL; }
-  if(empty($r))
+  if(empty($r) || $r['accounts_id'])
   {
-    session_regenerate_id();
-    $kernel['id_session'] = session_id();
-    if(!is_robot())
+     
+    $q->format("SELECT s.*,u.id as userid,u.login as login,u.fio as username FROM sessions as s LEFT JOIN accounts as u ON (u.id=s.accounts_id ) WHERE s.id='%s'", $id);  
+    $r = $q->get_row();  
+    if(empty($r))
     {
-      $q->format("INSERT INTO sessions SET id='%s',id_user='0',remote_addr='%s',user_agent='%s',storage='',created='%d',updated='%d'",
-                 $kernel['id_session'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'], time(), 0);
+        session_regenerate_id();
+        $kernel['id_session'] = session_id();
+        if(!is_robot())
+        {
+          $q->format("INSERT INTO sessions SET id='%s',id_user='0',remote_addr='%s',user_agent='%s',storage='',created='%d',updated='%d'",
+                     $kernel['id_session'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'], time(), 0);
+        }
+        $kernel['id_user'] = 0;
+        $kernel['login']   = '';
+        $storage = NULL;
     }
-    $kernel['id_user'] = 0;
-    $kernel['login']   = '';
-    $storage = NULL;
+    else
+    {
+        $kernel['login']     = $r['login'];
+        $kernel['accounts_id']   = $r['userid'];
+        $kernel['username']  = $r['username'];
+        $kernel['id_user']   = $r['id_user'];
+        $storage = $r['storage'];
+    }
   }
   else
   {
@@ -92,18 +106,33 @@ function login($login, $passwd='', $hash=true)
 }
 
 // login
-function acc_login($login, $passwd='', $hash=true)
+function login_acc($login, $passwd='', $hash=true)
 {
   global $kernel;
   $q = &$kernel['db']->query();
   if($hash) { $passwd = md5($passwd); }
 
-  $q->format("SELECT id,login FROM accounts WHERE login='%s' AND passwd='%s'", $login, $passwd);
+  $q->format("SELECT id,login,fio FROM accounts WHERE login='%s' AND passwd='%s'", $login, $passwd);
   $r = $q->get_row();
   $q->free_result();
-  $kernel['id_account'] = $r['id'];
+  if(empty($r))
+   { return false; } // root always active
+  $kernel['accounts_id'] = $r['id'];
   $kernel['login'] = $r['login'];
-  $q->format("UPDATE sessions SET id_account='%d' WHERE id='%s'", $kernel['id_account'], $kernel['id_session']);
+  $kernel['username'] = $r['fio'];
+  $q->format("UPDATE sessions SET accounts_id='%d' WHERE id='%s'", $kernel['accounts_id'], $kernel['id_session']);
+  return true;
+}
+
+// logout
+function logout_acc()
+{
+  global $kernel;
+  $q = &$kernel['db']->query();
+  $q->format("UPDATE sessions SET accounts_id=0 WHERE id='%s'", $kernel['id_session']);
+  $kernel['accounts_id'] = 0;
+  $kernel['login']   = '';
+  $kernel['username'] = '';
   return true;
 }
 
@@ -118,17 +147,6 @@ function logout()
   return true;
 }
 
-// logout
-function acc_logout()
-{
-  global $kernel;
-  $q = &$kernel['db']->query();
-  $q->format("UPDATE sessions SET id_account=0 WHERE id='%s'", $kernel['id_session']);
-  $kernel['id_account'] = 0;
-  $kernel['login']   = '';
-  setcookie('accauto','no',time()+937465,"/");
-  return true;
-}
 // check search bot
 function is_robot($ua=NULL)
 {
