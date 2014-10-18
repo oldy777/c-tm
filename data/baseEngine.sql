@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 --
 -- Dumping data for table `accounts`
 --
-
+ALTER TABLE `accounts` ADD `fio` VARCHAR( 255 ) NOT NULL AFTER `name` ;
 
 -- --------------------------------------------------------
 
@@ -71,6 +71,10 @@ CREATE TABLE IF NOT EXISTS `groups` (
 -- Dumping data for table `groups`
 --
 
+INSERT INTO `groups` (`id`, `title`, `content`, `blocked`, `created`, `updated`) VALUES
+(1, 'Администраторы', '', 0, 1369837747, 1369837747),
+(2, 'Пользователи', '', 0, 1369837757, 1369837757);
+
 
 -- --------------------------------------------------------
 
@@ -88,6 +92,8 @@ CREATE TABLE IF NOT EXISTS `groups_members` (
 -- Dumping data for table `groups_members`
 --
 
+INSERT INTO `groups_members` (`id_group`, `id_user`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -304,7 +310,15 @@ CREATE TABLE IF NOT EXISTS `modules_perm_groups` (
 --
 -- Dumping data for table `modules_perm_groups`
 --
-
+INSERT INTO `modules_perm_groups` (`module`, `id_group`) VALUES
+('groups', 1),
+('htdocs', 1),
+('htdocs', 2),
+('makets', 1),
+('perm', 1),
+('settings', 1),
+('sql', 1),
+('users', 1);
 
 -- --------------------------------------------------------
 
@@ -431,3 +445,35 @@ CREATE TABLE IF NOT EXISTS `users_forget` (
 -- Dumping data for table `users_forget`
 --
 
+CREATE TABLE IF NOT EXISTS `news` (
+`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`title` VARCHAR( 255 ) NOT NULL ,
+`anons` TEXT NOT NULL ,
+`text` TEXT NOT NULL ,
+`date` INT( 11 ) UNSIGNED NOT NULL ,
+`act` INT( 1 ) UNSIGNED NOT NULL
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `modules` (
+`id` ,
+`name` ,
+`parent_id` ,
+`hidden` ,
+`section` ,
+`position` ,
+`title` ,
+`descr`
+)
+VALUES (
+NULL , 'news', '0', '0', 'modules', '0', 'Новости', NULL
+);
+
+ALTER TABLE `news` ADD `description` TEXT NOT NULL ,
+ADD `keywords` TEXT NOT NULL ;
+
+INSERT INTO `htdocs` (`id`, `id_node`, `id_maket`, `path`, `pos`, `title`, `notice`, `content`, `eval`, `keywords`, `description`, `seo1`, `seo2`, `hidden`, `published`, `created`, `updated`) VALUES
+(NULL, 0, 2, '404', 0, 'Документ не найден', '', '', 0, NULL, NULL, '', '', 0, 0, 0, 0);
+
+ALTER TABLE `accounts` ADD `email` VARCHAR( 255 ) NOT NULL AFTER `address` ;
+
+ALTER TABLE `users` ADD `bg` VARCHAR( 255 ) NOT NULL COMMENT 'бекграунд админки';

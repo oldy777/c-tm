@@ -142,7 +142,7 @@ input.button-primary, button.button-primary, a.button-primary {
 }
 
 .login h1 a {
-    background: url("/admin/images/c-tm-logo.jpg") no-repeat scroll center top transparent;
+    background: url("/admin/images/c-tm-logo.png") no-repeat scroll center top transparent;
     display: block;
     height: 115px;
     overflow: hidden;

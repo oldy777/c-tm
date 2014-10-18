@@ -14,7 +14,7 @@ $(document).ready(function(){
         $(this).removeClass('hover');
     });
     
-    $( "#datepicker" ).datepicker({
+    $( "#datepicker, .datepicker" ).datepicker({
         showOn: "button",
         buttonImage: "/admin/images/calendar.png",
         buttonImageOnly: true,
@@ -33,6 +33,33 @@ $(document).ready(function(){
             else
                 alert('Ошибка доступа');
         })
+        return false;
+    });
+    
+    $('.del_fr_foto1').live('click',function(){
+        var img = $(this).attr('rel'),
+        cat = $(this).attr('cat'),
+        link = $(this).attr('link'),
+        obj = $(this),
+        tbl = $(this).attr('tbl');
+        $.post('/ajax/delimg_1.php', {img:img,cat:cat,tbl:tbl,link:link}, function(data){
+            if(data == 1)
+            {
+                $(obj).parent().remove();
+            }
+            else
+                alert('Ошибка доступа');
+        })
+        return false;
+    });
+    
+    $('.col_3_top a').click(function(){
+        var bg = $(this).attr('class');
+        if(bg)
+            $('body').css('background','url(/admin/images/'+bg+'.jpg)');
+        else
+            $('body').css('background','');
+        $.post('/admin/ajax.php',{act:'bg', bg:bg},function(){})
         return false;
     });
 });
@@ -109,4 +136,12 @@ function onpanel()
       o.style.display = 'none';
     }
   }
+}
+
+function setcookie(name, value, time)
+{
+  if(!time) { time = 3600*24*30; }
+  var expire = new Date();
+  expire.setTime(expire.getTime() + time);
+  document.cookie = escape(name) + '=' + escape(value) + ';expires=' + expire.toGMTString() + '; path=/';
 }

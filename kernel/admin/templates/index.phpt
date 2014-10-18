@@ -3,26 +3,46 @@
 <head>
 <title><?=htmlspecialchars($args['title'])?> :: <?=htmlspecialchars($args['subtitle'])?></title>
 <base href="http://<?=$_SERVER['HTTP_HOST']?>/admin/" >
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-<link href="/admin/style.css" type="text/css" rel="stylesheet" >
-<link rel="shortcut icon" href="/admin/favicon.ico" type="image/x-icon" >
-<link rel="shortcut icon" href="/admin/favicon.gif" type="image/gif" >
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link href="/admin/style.css" type="text/css" rel="stylesheet" />
+<link href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+
+<link rel="shortcut icon" href="/admin/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/admin/favicon.gif" type="image/gif" />
+
 <script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
-<script language="javascript" type="text/javascript" src="/admin/script.js"></script>
-<link type="text/css" href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="/js/jquery.fancybox-1.2.1.pack.js" type="text/javascript"></script>
 <script src="/js/datepickerRU.js" type="text/javascript"></script>
+<script src="/admin/script.js"  type="text/javascript"></script>
 </head>
-<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0">
+<body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" style="<?=$kernel['bg'] ? 'background: url(/admin/images/'.$kernel['bg'] .'.jpg)':''?>">
 <style>
 xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 </style>
 <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
 <!-- head -->
-<tr height="60">
-<td width="3%"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
-<td width="94%">
-    <table width="100%" height="60" cellpadding="0" cellspacing="0">
+<tr height="80" style="background: url('/admin/images/admin_top_x.png') repeat-x;">
+<td width="40"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
+<td width="250" style="vertical-align: top" class="head_1">
+    <div class="logo">
+        <img src="/admin/images/c-tm-logo.png" style="margin-left: -49px; margin-top: 8px; float: left" width="40"/>
+        Система управления сайтом
+        <div class="logo_url"><a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/"><?=$_SERVER['HTTP_HOST']?></a></div>
+    </div>
+</td>
+<!--<td width="10"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>-->
+<td width="" class="head_4">
+    <div class="user_info">
+	<span class="user_name">
+            <a href="/admin/index.php?mod=users&act=edit&id=<?=$kernel['id_user']?>"><?=$kernel['username']?></a>
+        </span>
+        <span class="exit">
+            <a href="/admin/logout.php">Выйти</a>
+        </span>
+    </div>
+<!--    <table width="100%" height="60" cellpadding="0" cellspacing="0">
         <tr valign="middle">
             <td align="left">&nbsp</td>
             <td>
@@ -30,28 +50,60 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                 <div class="global"><a href="/"><img src="/admin/images/icon_start.gif" width="28" height="28" alt="На сайт" ></a><br ><a href="/">На сайт</a></div>
             </td>
         </tr>
-    </table>
+    </table>-->
 </td>
-<td width="3%"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
+<td width="40"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 </tr>
 <!--/head -->
 <!-- middle -->
 <tr>
 <td><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
-<td valign="top">
+<td valign="top" >
 
 	<!-- main table -->
-	<table width="100%" height="100%" cellpadding="0" cellspacing="1" style="border:1px solid #C7DFE3"><tr>
-	<td width="250" bgcolor="#EDF8FF" background="/admin/images/bg01.gif" valign="top" id="sidebar" nowrap>
+	<table width="250" height="100%" cellpadding="0" cellspacing="0"  ><tr>
+	<td width="250" bgcolor="#EDF8FF" background="/admin/images/bg01.gif" valign="top" id="sidebar" class="col_1_top" nowrap>
 
-		<table width="100%" cellpadding="0" cellspacing="0">
-		<tr>
+		<!--<table width="100%" cellpadding="0" cellspacing="0">-->
+<!--		<tr>
 		<td width="1%"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td>
 		<td width="99%"><img src="/admin/images/none.gif" width="1" height="1" alt="" ></td>
-		</tr>
+		</tr>-->
 
 		<!-- modules -->
-		<tr>
+                
+                <table width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="menu_tr_first">
+                                <h1>Модули</h1>
+                            </td>
+                        </tr>
+                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
+                            if($i['section']=='modules'){
+                         ?>
+                            <?if($i['current']){$cur = $cnt+1;?>
+                                <tr>
+                                    <td class="menu_act_before" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
+                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
+                                <td class="menu_3"></td>
+                            </tr>
+                            <?if($i['current']){?>
+                                <tr>
+                                    <td class="menu_act_after" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                        <?$cnt++;}?>
+                        </tbody>
+                </table>
+                <?if($cnt != $cur){?>
+                <div class="left_sep" ></div>
+                <?}?>
+<!--		<tr>
 		<td valign="top"><img src="/admin/images/icon_modules.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Модули" ></td>
 		<td valign="top" nowrap>
 
@@ -65,10 +117,41 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 		</td>
 		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>
+		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
 
 		<!-- tools -->
-		<tr>
+                <table width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="menu_tr_first">
+                                <h1>Инструменты</h1>
+                            </td>
+                        </tr>
+                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
+                            if($i['section']=='tools'){
+                         ?>
+                            <?if($i['current']){$cur = $cnt+1;?>
+                                <tr>
+                                    <td class="menu_act_before" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
+                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
+                                <td class="menu_3"></td>
+                            </tr>
+                            <?if($i['current']){?>
+                                <tr>
+                                    <td class="menu_act_after" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                        <?$cnt++;}?>
+                        </tbody>
+                </table>
+                <?if($cnt != $cur){?>
+                <div class="left_sep"></div>
+                <?}?>
+<!--		<tr>
 		<td valign="top"><img src="/admin/images/icon_tools.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Инструменты" ></td>
 		<td valign="top" nowrap>
 
@@ -82,10 +165,41 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 		</td>
 		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>
+		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
 
 		<!-- struct -->
-		<tr>
+                <table width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="menu_tr_first">
+                                <h1>Структура&nbsp;сайта</h1>
+                            </td>
+                        </tr>
+                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
+                            if($i['section']=='struct'){
+                         ?>
+                            <?if($i['current']){$cur = $cnt+1;?>
+                                <tr>
+                                    <td class="menu_act_before" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
+                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
+                                <td class="menu_3"></td>
+                            </tr>
+                            <?if($i['current']){?>
+                                <tr>
+                                    <td class="menu_act_after" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                        <?$cnt++;}?>
+                        </tbody>
+                </table>
+                <?if($cnt != $cur){?>
+                <div class="left_sep"></div>
+                <?}?>
+<!--		<tr>
 		<td valign="top"><img src="/admin/images/icon_struct.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Структура сайта" ></td>
 		<td valign="top" nowrap>
 
@@ -99,10 +213,41 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 		</td>
 		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>
+		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
 
 		<!-- access -->
-		<tr>
+                <table width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="menu_tr_first">
+                                <h1>Пользователи</h1>
+                            </td>
+                        </tr>
+                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
+                            if($i['section']=='access'){
+                         ?>
+                            <?if($i['current']){$cur = $cnt+1;?>
+                                <tr>
+                                    <td class="menu_act_before" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
+                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
+                                <td class="menu_3"></td>
+                            </tr>
+                            <?if($i['current']){?>
+                                <tr>
+                                    <td class="menu_act_after" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                        <?$cnt++;}?>
+                        </tbody>
+                </table>
+                <?if($cnt != $cur){?>
+                <div class="left_sep"></div>
+                <?}?>
+<!--		<tr>
 		<td valign="top"><img src="/admin/images/icon_access.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Пользователи" ></td>
 		<td valign="top" nowrap>
 
@@ -116,12 +261,13 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 		</td>
 		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>
+		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
+                </td></tr>
 		</table>
 
 	</td>
-	<td width="10" bgcolor="#B9D7DC" onclick="onsidebar();return false;" style="cursor:hand" title="скрыть/показать панель модулей" id="spliter"><a href="javascript:onsidebar()"><img src="/admin/images/splitter.gif" width="9" height="25" border="0" alt="" ></a></td>
-	<td width="" valign="top" bgcolor="#F8FCFF" style="padding:20px 10px 10px 20px; background:url(/admin/images/head_bg2.gif) repeat-x top #F8FCFF" id="workspace">
+	<!--<td width="10" bgcolor="#B9D7DC" onclick="onsidebar();return false;" style="cursor:hand" title="скрыть/показать панель модулей" id="spliter"><a href="javascript:onsidebar()"><img src="/admin/images/splitter.gif" width="9" height="25" border="0" alt="" ></a></td>-->
+	<td width="" valign="top" bgcolor="#F8FCFF" style="background-color: #fff; padding:20px 10px 10px 20px; background:url(/admin/images/col_2_x.gif) repeat-x top #fff" id="workspace">
 
 	<!-- content -->
 	<noscript><div class="error">В вашем броузере не включена поддержка скриптов</div></noscript>
@@ -212,11 +358,36 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 	<!--/content -->
 
 	</td>
-	</tr></table>
+	<!--</tr></table>-->
 	<!--/main table -->
 
+<!--</td>-->
+<td class="col_3_top">
+   
+    <a style="background: url(/admin/images/wood_min.png) no-repeat 100% 0;" class="theme_wood" href="#"></a>
+    <a style="background: url(/admin/images/cacomile_min.png) no-repeat 100% 0;" class="theme_cacomile" href="#"></a>
+    <a style="background: url(/admin/images/texture_min.png) no-repeat 100% 0;" class="theme_texture" href="#"></a>
+    <a style="background: url(/admin/images/water_min.png) no-repeat 100% 0;" class="theme_water" href="#"></a>
+    <a style="background: url(/admin/images/weaves_min.png) no-repeat 100% 0;" class="theme_weaves" href="#"></a>
+    <a style="background: url(/admin/images/stone_min.png) no-repeat 100% 0;" class="theme_stone" href="#"></a>
+    <a style="background: url(/admin/images/space_min.png) no-repeat 100% 0;" class="theme_space" href="#"></a>
+    <a style="background: url(/admin/images/metall_min.png) no-repeat 100% 0;" class="theme_metall" href="#"></a>
+        <img src="/admin/images/none.gif" width="5" height="1" alt="" >
+        <style>
+            .col_3_top{vertical-align: top; padding-top: 15px;}
+            .col_3_top a:link, .col_3_top a:visited {
+        display: block;
+        height: 43px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        width: 21px;
+        ;
+    }
+    .col_3_top a:hover{
+        width: 30px;
+    }
+        </style>
 </td>
-<td><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 </tr>
 <!--/middle -->
 <!-- foot -->

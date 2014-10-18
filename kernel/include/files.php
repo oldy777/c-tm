@@ -4,6 +4,7 @@ function files_section_tree($id, $level=0)
 {
   $ret = array();
   global $kernel;
+  /* @var $q query_mysql */
   $q = &$kernel['db']->query();
   $q->format("SELECT id,name FROM files_sections WHERE id_parent='%d' ORDER BY name", $id);
   while($r = $q->get_row())

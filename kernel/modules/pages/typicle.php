@@ -1,4 +1,5 @@
 <?
+/* @var $q query_mysql */
 $q = &$kernel['db']->query();
 $args = array();
 $errors = array();

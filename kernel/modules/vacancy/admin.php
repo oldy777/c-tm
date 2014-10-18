@@ -6,11 +6,14 @@ include_once($_SERVER['DOCUMENT_ROOT']."/editor/ckeditor.php");
 $result = array();
 $result['title'] = '';
 $result['commands'] = array();
+/* @var $q query_mysql */
 $q = &$kernel['db']->query();
 $action = trim($_GET['act']);
 $args = array();
 $errors = array();
 $template = '';
+$npages = 50; 
+$args['page'] = (isset($_GET['page']) && $_GET['page']) ? $_GET['page']:1;
 
 $args['mod_name']=Array('','вакансии','вакансию');      # {Название}, lj,добавление {названия}, добавить {название}
 $args['mod_table_name']="vacancy";             # Имя таблицы
@@ -18,7 +21,7 @@ $args['mod_pos']=true;                  # Вкл/выкл позиция
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
   Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1, 'link'=>1),
-  Array('name'=>'responsibility','title'=>'Обязанности','type'=>'editor','view'=>0),
+  Array('name'=>'responsibility','title'=>'Обязанности','type'=>'editor','view'=>0, 'alt'=>''),//alt-имя поля для сортировки из другой связанной таблицы
   Array('name'=>'requirements','title'=>'Требования','type'=>'editor','view'=>0),
   Array('name'=>'terms','title'=>'Условия','type'=>'editor','view'=>0),
   Array('name'=>'act','title'=>'Показывать','type'=>'option','view'=>0),
@@ -35,10 +38,7 @@ switch($action){
       foreach($args['mod_fields'] as $f){
         if($f['type']=="image"){
           if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
+            $val[$f['name']] = image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
           };
         }
         
@@ -107,7 +107,7 @@ switch($action){
         }else{
           $q->query("select max(pos) from ".$args['mod_table_name']);
           $tmp = $q->get_cell();
-          if($tmp)
+          if($tmp || $tmp == 0)
             $val['pos']=$tmp + 1;
         }
       }
@@ -129,10 +129,7 @@ switch($action){
             $val[$f['name']]=0;
           }
           if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
+            $val[$f['name']] = image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
           };
         }
         
@@ -246,8 +243,33 @@ switch($action){
   default:
     $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=additem', 'title'=>'Добавить '.$args['mod_name'][2]);
     $args['items'] = array();
-    $q->query("select * from ".$args['mod_table_name']." order by ".(($args['mod_pos'])?'pos':'id DESC'));
+    
+    $order = 'id';
+    $type = 'DESC';
+    if(isset($_GET['order']) && $_GET['order'])
+    {
+        $order = $_GET['order'];
+        $type = $_GET['type'] ? $_GET['type']:'ASC';
+    }
+    else 
+    {
+        if($args['mod_pos'])
+        {
+            $order = 'pos';
+            $type = 'ASC';
+        }
+        
+    }
+    
+    $q->query("select * from ".$args['mod_table_name']." T "
+            ."order by ".(!strstr($order, '.')? 'T.'.$order:$order)." ".$type
+            ." LIMIT ".($args['page']-1)*$npages.",".$npages);
     $args['items'] = $q->get_allrows();
+    
+    $q->query("select count(id) as cnt from ".$args['mod_table_name']." WHERE 1=1");
+    $all = $q->get_cell();
+    $args['pages'] = ceil($all/$npages);
+    
     $template="items.phpt";
   break;
 };
@@ -255,5 +277,5 @@ switch($action){
 if($template!='') { template(dirname(__FILE__). '/templates/'. $template, $args, $errors); }
 
 return $result;
-
+  
 ?>

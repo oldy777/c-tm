@@ -17,13 +17,13 @@ if(strpos($path, '..')!==false)
 
 if(!is_file($path)) { $path = $_SERVER['DOCUMENT_ROOT']. "/upload/images/". trim($_GET['path']); }
 
-if(!is_file($path)) 
-{
-  $tmp = ini_get('upload_tmp_dir');
-  if(!$tmp) { $tmp = dirname(tempnam(' ','upl')); }
-  if(!$tmp) { $tmp = IMAGE_CACHE_DIR; }
-  $path = $tmp. '/'. trim($_GET['path']); 
-}
+//if(!is_file($path)) 
+//{
+//  $tmp = ini_get('upload_tmp_dir');
+//  if(!$tmp) { $tmp = dirname(tempnam(' ','upl')); }
+//  if(!$tmp) { $tmp = IMAGE_CACHE_DIR; }
+//  $path = $tmp. '/'. trim($_GET['path']); 
+//}
 
 
 

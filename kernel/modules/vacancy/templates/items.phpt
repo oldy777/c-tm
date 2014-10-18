@@ -36,13 +36,30 @@ $width=ceil($width/$args['mod_view']);
 <table width="100%" border="0" cellspacing="0" cellpadding="4" class="table tablelist">
   <thead>
     <tr>
-      <th width="1%">#</th>
+      <th width="1%"><a href="?mod=<?=$_GET['mod']?>&order=id&type=<?=isset($_GET['order']) && $_GET['order']=='id' ? ($_GET['type']=='ASC'?'DESC':'ASC'):'ASC'?>">
+                #<?if(isset($_GET['order']) && $_GET['order']=='id'){?>
+                    <?if($_GET['type']=='ASC'){?>
+                        <img src="/admin/images/arrow_skip_down.png" style="vertical-align: middle" />
+                    <?}else{?>
+                        <img src="/admin/images/arrow_skip_up.png" style="vertical-align: middle" />
+                    <?}?>
+                <?}?>
+            </a>
+      </th>
   <?if($args['mod_pos']){?>
       <th width="3%">Поз.</th>
   <?}?>
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
-      <th width="<?=$width?>%"><?=$f['title']?></th>
+      <th width="<?=$width?>%"><a href="?mod=<?=$_GET['mod']?>&order=<?=$f['alt'] ? $f['alt']:$f['name']?>&type=<?=isset($_GET['order']) && $_GET['order']==($f['alt'] ? $f['alt']:$f['name']) ? ($_GET['type']=='ASC'?'DESC':'ASC'):'ASC'?>">
+              <?=$f['title']?><?if(isset($_GET['order']) && $_GET['order']==($f['alt'] ? $f['alt']:$f['name'])){?>
+                    <?if($_GET['type']=='ASC'){?>
+                        <img src="/admin/images/arrow_skip_down.png" style="vertical-align: middle" />
+                    <?}else{?>
+                        <img src="/admin/images/arrow_skip_up.png" style="vertical-align: middle" />
+                    <?}?>
+                <?}?>
+          </a></th>
   <?}?>
 <?}?>
       <th title="команды" width="1%">
@@ -65,7 +82,18 @@ $width=ceil($width/$args['mod_view']);
                     <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
              </a>
         <?}else{?>
-             <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
+             <?
+                if($f['type']=='option')  
+                {
+                    echo $args['options'][$f['name']]['values'][$i[$f['name']]] ;
+                }
+                elseif($f['type']=='date')
+                {
+                    echo date('d.m.Y',$i[$f['name']]);
+                }
+                else
+                    echo mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')
+             ?>
         <?}?>
     </td>
   <?}?>
@@ -78,3 +106,27 @@ $width=ceil($width/$args['mod_view']);
 <?}?>
  </tbody>
 </table>
+<?if  ($args['pages'] > 1) { ?>
+    <ul class="list-pages">
+        <li><a class="pages-left" href="/admin/?mod=<?=$_GET['mod']?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?>&page=<?= $args['page'] > 1 ? ($args['page'] - 1) : $args['page'] ?>">Назад</a></li>
+        <? for ($i = 1; $i <= $args['pages']; $i++) { ?>
+            <? if ($args['page'] == $i) { ?>
+                <li><b class="active"><?= $i ?></b></li>
+            <? } else { ?>
+                <li><a href="/admin/?mod=<?=$_GET['mod']?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?>&page=<?= $i ?>"><?= $i ?></a></li>
+            <? } ?>
+            <? if ($i == 1 && ($args['page'] - 1) > 4) { ?>
+                <li>...</li>
+                <? $i = $args['page'] - 4;
+                continue;
+            } ?>
+                        
+            <? if ($i > ($args['page'] + 4) && ($args['pages'] - $i) > 1) { ?>
+                <li>...</li>
+                <li><a href="/admin/?mod=<?=$_GET['mod']?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?>&page=<?= $args['pages'] ?>"><?= $args['pages'] ?></a></li>
+            <? break;
+        } ?>
+    <? } ?>
+        <li><a class="pages-right" href="/admin/?mod=<?=$_GET['mod']?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?>&page=<?= $args['page'] < $args['pages'] ? ($args['page'] + 1) : $args['page'] ?>">Вперед</a></li>
+    </ul>
+<? } ?>

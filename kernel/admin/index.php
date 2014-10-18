@@ -17,7 +17,7 @@ $args['version'] = $kernel['version'];
 $args['mod'] = '';
 
 $errors['perm'] = false;
-
+/* @var $q query_mysql */
 $q = &$kernel['db']->query();
 
 $mod = str_replace(array('/', '\\'), '', trim($_GET['mod'])); // anti hack
@@ -99,6 +99,9 @@ if(sizeof($submod)>1){
   $q->query("select * from modules where name='".current($submod)."'");
   $args['submod']=$q->get_row();
 }
+
+$q->query("SELECT bg FROM users WHERE id = ".$kernel['id_user']);
+$kernel['bg'] = $q->get_cell();
 
 // list modules
 if($kernel['id_user']!=1)

@@ -429,6 +429,11 @@ class query_mysql
 
     return $this->query($query,true);
   }
+  
+  function last_id()
+  {
+      return $this->db->last_id();
+  }
 
 }
 ?>

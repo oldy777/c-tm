@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT']. "/kernel.php");
 include_once(KERNEL_DIR. '/kernel.php');
 @header("Content-type: text/javascript; charset=windows-1251");
-
+/* @var $q query_mysql */
 $q = &$kernel['db']->query();
 
 if($_SERVER['REQUEST_METHOD']=='POST'){

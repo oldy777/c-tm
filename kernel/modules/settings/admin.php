@@ -19,6 +19,8 @@ $args['mod_sections']=Array(
   Array('name'=>'main','title'=>'Название сайта','fields'=>
     Array(
       Array('name'=>'sitename_ru','title'=>'Название сайта','type'=>'text'),
+      Array('name'=>'description','title'=>'Description(SEO)','type'=>'textarea'),
+      Array('name'=>'keywords','title'=>'Keywords(SEO)','type'=>'textarea'),
     )
   ),
     

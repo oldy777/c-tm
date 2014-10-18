@@ -88,6 +88,7 @@ function image_delete($id)
   if($info = image_info($id))
   {
     global $kernel;
+    /* @var $q query_mysql */
     $q = &$kernel['db']->query();
     $q->format("DELETE FROM modules_images WHERE id='%d'", $id);
     unlink($_SERVER['DOCUMENT_ROOT']. "/upload/images/". $info['path']);
@@ -153,7 +154,7 @@ function image_module_add($srcpath, $section, $name, $types = array())
       }
     }
   }
-  return $time;
+  return $ret;
 }
 
 function image_module_download_add($srcpath, $section, $name,$ext)
