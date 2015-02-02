@@ -20,21 +20,7 @@ $("document").ready(function(){
             {
                 newpos(this,0);
             }
-        })
-//	$(".item input").blur(function(){
-//		var new_pos = parseInt($(this).val()),
-//			id = $(this).attr("id"),
-//			cat = $(".table").attr("id");
-//			$.ajax({
-//				   type: "POST",
-//				   url: "/ajax/sort.php",
-//				   data: "id="+id+"&&"+"new="+new_pos+"&&"+"cat="+cat,
-//				   success: function(data){
-//				location.reload();
-//			}
-//			});
-//	return false;	
-//	});
+        });
 	
 });
 function newpos(obj,act){
@@ -46,7 +32,7 @@ function newpos(obj,act){
                     var pred = parseInt($(obj).parent().parent().prevAll( '.container:first' ).children('.item').children('.inp').val());
                     
                     if(pred || pred == 0){
-                        new_pos = pred+1;
+                        new_pos = pred;
                     }
                     else
                     {
@@ -56,11 +42,13 @@ function newpos(obj,act){
                 }
                 var id = $(obj).attr("id"),
                 table = $(obj).attr("rel"),
+                cat = $(obj).attr("cat"),
+                cat_val = $(obj).attr("cat_val"),
                 old = $(obj).parent().attr('id');
 			$.ajax({
 				   type: "POST",
 				   url: "/ajax/sort.php",
-				   data: "id="+id+"&&"+"new="+new_pos+"&&old="+old+"&&table="+table,
+				   data: "id="+id+"&&"+"new="+new_pos+"&&old="+old+"&&table="+table+"&cat="+cat+'&cat_val='+cat_val,
 				   success: function(data){
                                       {
                                         location.reload();

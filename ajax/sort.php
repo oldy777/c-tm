@@ -6,10 +6,15 @@ include_once(KERNEL_DIR. '/kernel.php');
 $q = &$kernel['db']->query();
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
-	$id = $_POST['id'];
-	$new = $_POST['new'];
-        $old = $_POST['old'];
-        $table= $_POST['table'];
+	$id = (int)$_POST['id'];
+	$new = (int)$_POST['new'];
+        $old = (int)$_POST['old'];
+        $table= addslashes($_POST['table']);
+        $cat_val= isset($_POST['cat_val']) ? (int)$_POST['cat_val']:'';
+        $cat= isset($_POST['cat']) && $_POST['cat'] ? addslashes($_POST['cat']):'';
+        $where = '';
+        if($cat)
+            $where = " AND ".$cat_val." = ".$cat;
 	
         if($old==$new) return true;
         
@@ -17,7 +22,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         
         if($old>$new)
         {
-            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $new AND $old AND id <> $id order by pos");
+            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $new AND $old AND id <> $id ".$where." order by pos");
             $args['items'] = $q->get_allrows();
             
             foreach($args['items'] as $key => $item){
@@ -27,7 +32,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         }
         else
         {
-            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $old AND ".($new-1)." AND id <> $id order by pos");
+            $q->query("select * from ".$table." where 1=1 AND pos BETWEEN $old AND ".($new)." AND id <> $id ".$where." order by pos");
             $args['items'] = $q->get_allrows();
             
             foreach($args['items'] as $key => $item){
@@ -35,11 +40,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                     $q->query("update ".$table." SET pos=$i WHERE id='".$item['id']."'");
             }
             
-            $q->query("select * from ".$table." where 1=1 AND pos >=$new AND id <> $id order by pos");
+            $q->query("select * from ".$table." where 1=1 AND pos >=$new AND id <> $id  ".$where." order by pos");
             $args['items'] = $q->get_allrows();
-            
+            $i = $new;
             foreach($args['items'] as $key => $item){
-            $i = $item['pos']+1;
+                    $i++;
                     $q->query("update ".$table." SET pos=$i WHERE id='".$item['id']."'");
             }
         }

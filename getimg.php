@@ -77,7 +77,7 @@ elseif($mode=='thumb_png') { $func = 'image_thumb_png'; }
 else { $mode = 'thumb'; }
 
 // cache
-$cache = IMAGE_CACHE_DIR. "/image#". urlencode(str_replace($_SERVER['DOCUMENT_ROOT'],'', $path)). "#{$mode}#{$width}x{$height}#{$color}#{$quality}#{$mirror}.jpg";
+$cache = IMAGE_CACHE_DIR. "/image_". urlencode(str_replace('/', '_', str_replace($_SERVER['DOCUMENT_ROOT'],'', $path))). "_{$mode}_{$width}x{$height}_{$color}_{$quality}_{$mirror}.jpg";
 if(!file_exists($cache) || (filemtime($path) > filemtime($cache)))
 {
   $func($path, $cache, $width, $height, $quality, $color,$mirror);

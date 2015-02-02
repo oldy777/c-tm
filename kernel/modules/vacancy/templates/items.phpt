@@ -4,11 +4,20 @@
 <script language="javascript" type="text/javascript">
 function del(id)
 {
-  obj = document.getElementById(id);
-  if(confirm('Удaлить "'+obj.innerHTML+'" из списка?'))
-  {
-    document.location = '/admin/?mod=<?=$_GET['mod']?>&act=delitem&id='+id+'';
+    
+  swal({
+        title: "Вы уверены что хотите удалить элемент из списка?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Да, удалить",
+        cancelButtonText: "Нет, отмена"
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                document.location = '/admin/?mod=<?= $_GET['mod'] ?>&act=delitem&id=' + id + '<?=isset($_GET['page'])?('&page='.$_GET['page']):''?>';
   }
+        });
 }
 </script>
 <?if($args['mod_pos']){?>
@@ -72,13 +81,13 @@ $width=ceil($width/$args['mod_view']);
   <tr align="center" class="container <?=((++$cnt%2)==0 ? 'odd':'')?>">
     <td style="font-size:11px;color:#999;"><?=$i['id']?></td>
   <?if($args['mod_pos']){?>
-    <td class="item" id="<?=$i['pos']?>" style="font-size:11px;color:#999;"><input class="inp" id="<?=$i['id']?>" style="width:40px; display:none; font-size:11px; text-align:center;" type="text" value="<?=$i['pos']?>" rel="<?=$args['mod_table_name']?>" /><span style="display:block; width:40px;"><?=$i['pos']?></span></td>
+    <td class="item" id="<?=$i['pos']?>" style="font-size:11px;color:#999;"><input class="inp" id="<?=$i['id']?>" style="width:40px; display:none; font-size:11px; text-align:center;" type="text" value="<?=$i['pos']?>" rel="<?=$args['mod_table_name']?>" cat="" cat_val="" /><span style="display:block; width:40px;"><?=$i['pos']?></span></td>
   <?}?>
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
     <td align="left" id="<?=$i['id']?>">
         <?if(isset($f['link']) && $f['link']==1){?>
-             <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?>" title="редактировать">
+             <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?><?=isset($_GET['page'])?('&page='.$_GET['page']):''?>" title="редактировать">
                     <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
              </a>
         <?}else{?>
@@ -99,7 +108,7 @@ $width=ceil($width/$args['mod_view']);
   <?}?>
 <?}?>
     <td nowrap="nowrap">
-      <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?>" title="редактировать"><img class="btn_edit" src="/admin/images/icon_edit.gif" width="17" height="17" border="0" /></a>
+      <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?><?=isset($_GET['page'])?('&page='.$_GET['page']):''?>" title="редактировать"><img class="btn_edit" src="/admin/images/icon_edit.gif" width="17" height="17" border="0" /></a>
       <a href="javascript:del(<?=$i['id']?>)" title="удалить"><img class="btn_del" src="/admin/images/icon_del.gif" width="17" height="17" border="0" /></a>
     </td>
   </tr>

@@ -408,6 +408,9 @@ class query_mysql
       if ($this->num_rows())
       {
         while ($r = $this->get_row()){
+            if($field)
+                $ret[]=$r[$field];
+            else
             $ret[]=$r;
         }
       }

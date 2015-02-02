@@ -1,5 +1,8 @@
 <?php
 header('Content-type: text/html; charset=utf-8');
+
+include_once(INCLUDE_DIR. '/flush.php'); 
+
 if($kernel['id_user'] <= 0) // not login
 {
   $_SESSION['REQUEST_URI'] = $_SERVER['REQUEST_URI'];

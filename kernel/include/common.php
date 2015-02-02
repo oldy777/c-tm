@@ -1,20 +1,73 @@
 <?php
 
-function arr_manth() {
-    return array(
-        1=>'январь',
-        2=>'февраль',
-        3=>'март',
-        4=>'апрель',
-        5=>'май',
-        6=>'июнь',
-        7=>'июль',
-        8=>'август',
-        9=>'сентябрь',
-        10=>'октябрь',
-        11=>'ноябрь',
-        12=>'декабрь',
+function arr_month($month=0) {
+    $arr = array(
+        1=>_('Январь'),
+        2=>_('Февраль'),
+        3=>_('Март'),
+        4=>_('Апрель'),
+        5=>_('Май'),
+        6=>_('Июнь'),
+        7=>_('Июль'),
+        8=>_('Август'),
+        9=>_('Сентябрь'),
+        10=>_('Октябрь'),
+        11=>_('Ноябрь'),
+        12=>_('Декабрь'),
     );
+    
+    if($month)
+    {
+        return $arr[$month];
+}
+    else
+    {
+        return $arr;
+    }
+
+}
+
+function arr_month2($month=0) {
+    $month = (int)$month;
+    $arr = array(
+        1=>_('Января'),
+        2=>_('Февраля'),
+        3=>_('Марта'),
+        4=>_('Апреля'),
+        5=>_('Мая'),
+        6=>_('Июня'),
+        7=>_('Июля'),
+        8=>_('Августа'),
+        9=>_('Сентября'),
+        10=>_('Октября'),
+        11=>_('Ноября'),
+        12=>_('Декабря'),
+    );
+    
+    if($month)
+    {
+        return $arr[$month];
+    }
+    else
+    {
+        return $arr;
+    }
+    
+}
+
+function week_day($day)
+{
+    $arr = array(
+        0=>_('Воскресенье'),
+        1=>_('Понедельник'),
+        2=>_('Вторник'),
+        3=>_('Среда'),
+        4=>_('Четверг'),
+        5=>_('Пятница'),
+        6=>_('Суббота'),
+    );
+    
+    return $arr[$day];
 }
 
 /**
@@ -478,7 +531,7 @@ function make_password($num_chars) {
  * @param int $h высота
  * @param str $type тип ресайза thumb,crop,resize,i_resize,resize_png,thumb_png
  */
-function getImgPath($name, $resize, $w=0, $h=0, $type='')
+function getImgPath($name, $resize, $w=0, $h=0, $type='', $water='')
 {
     $str = '';
     if(!$resize)
@@ -487,9 +540,128 @@ function getImgPath($name, $resize, $w=0, $h=0, $type='')
     }
     else
     {
-         $str = '/getimg/'.$w.'/'.$h.($type ? '/'.$type:'').'/'.$name;
+        $path = $_SERVER['DOCUMENT_ROOT'].'/kernel/cache/images/image__upload_images_'.$name.'_'.$type.'_'.$w.'x'.$h.'_FFFFFF_100_'.($water ? 1:0).'.jpg';
+        if(file_exists($path))
+        {
+            $str = '/cacheimg/'.$w.'/'.$h.($water ? '/1':'').($type ? '/'.$type:'').'/'.$name;
+    }
+        else 
+        {
+            $str = '/getimg/'.$w.'/'.$h.($water ? '/1':'').($type ? '/'.$type:'').'/'.$name;
+        }
+        
     }
     return $str;
 }
 
+function get_web_page($url, $postdata = '', $header = array())
+{
+    $uagent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0";
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // ?????????? ???-????????
+    curl_setopt($ch, CURLOPT_HEADER, 0);           // ?? ?????????? ?????????
+    if ($header)
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);   // ????????? ?? ??????????
+    curl_setopt($ch, CURLOPT_USERAGENT, $uagent);  // useragent
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 220); // ??????? ??????????
+    curl_setopt($ch, CURLOPT_TIMEOUT, 220);        // ??????? ??????
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);       // ??????????????? ????? 10-??? ?????????
+    if ($postdata)
+    {
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+    }
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $_SERVER['DOCUMENT_ROOT'] . "/coo.txt");
+    curl_setopt($ch, CURLOPT_COOKIEFILE, $_SERVER['DOCUMENT_ROOT'] . "/coo.txt");
+    
+    $content = curl_exec($ch);
+    $header = curl_getinfo($ch);
+
+    curl_close($ch);
+    return $content;
+}
+
+function addJs($js)
+{
+    global $kernel;
+    if(!isset($kernel['js']) || !in_array($js, $kernel['js']))
+    {
+        $kernel['js'][] = $js;
+    }
+    return true;
+}
+
+function getJs()
+{
+    global $kernel;
+    $str = '';
+    if($kernel['js'])
+    {
+        foreach ($kernel['js'] as $v)
+        {
+            $str .= '<script type="text/javascript" src="/js/'.$v.'"></script>'."\n";
+        }  
+    }
+    return $str;
+}
+
+function addCss($js)
+{
+    global $kernel;
+    if(!isset($kernel['css']) || !in_array($js, $kernel['css']))
+    {
+        $kernel['css'][] = $js;
+    }
+    return true;
+}
+
+function getCss()
+{
+    global $kernel;
+    $str = '';
+    if($kernel['css'])
+    {
+        foreach ($kernel['css'] as $v)
+        {
+            $str .= '<link href="/css/'.$v.'" rel="stylesheet" type="text/css" />'."\n";
+        }  
+    }
+    return $str;
+}
+
+function seturl($link)
+{
+    global $kernel;
+    return ($kernel['lng'] != 'ru' ? '/'.$kernel['lng']:'').$link;
+}
+
+function lngPostfix()
+{
+    global $kernel;
+    return ($kernel['lng'] != 'ru' ? '_'.$kernel['lng']:'');
+}
+
+
+
+/**
+ * Проверяет наличие актуального кеш файла
+ * @param type $url request uri
+ * @param type $time time in seconds
+ * @return boolean
+ */
+function  checkCache($url, $type='cache', $time=1800){
+    $mtime = NULL;
+    $path = HTDOC_CACHE_DIR. '/htdoc#'. urlencode($url). '_'.$type.'.html';
+    if(file_exists($path)) { $mtime = filemtime($path); }
+    if($mtime && ($mtime+$time)>=time()) { 
+        include($path);
+        return true;
+    } // если время совпадает то все норм
+    elseif(!$mtime || ($mtime+$time)<time()){ // иначе пишем из базы в файл
+        return false;
+    }
+}
 ?>

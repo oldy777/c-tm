@@ -113,6 +113,7 @@ switch($action){
       }
 
       $q->format("insert into ".$args['mod_table_name']." set %s",$val);
+      setFlush('Запись успешно добавлена'); 
       http_redirect("?mod=".$_GET['mod']);
     }else{
       $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'], 'title'=>'К списку');
@@ -186,12 +187,13 @@ switch($action){
       }
 
       $q->format("update ".$args['mod_table_name']." set %s where id='".$_GET['id']."'",$val);
-      http_redirect("?mod=".$_GET['mod']);
+      setFlush('Изменения успешно сохранены');
+      http_redirect("?mod=".$_GET['mod'].(isset($_GET['page'])?('&page='.$_GET['page']):''));
     }else{
-      $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&f_id='.$_GET['f_id'], 'title'=>'К списку');
+      $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].(isset($_GET['page'])?('&page='.$_GET['page']):''), 'title'=>'К списку');
       $result['title']="Редактирование ".$args['mod_name'][1];
 
-      $q->query("select * from ".$args['mod_table_name']." where id='".$_GET['id']."'");
+      $q->format("select * from ".$args['mod_table_name']." where id = %d", $_GET['id']);
       $args['item']=$q->get_row();
 
       foreach($args['mod_fields'] as $f){
@@ -220,7 +222,8 @@ switch($action){
       }
     }
     $q->query("delete from ".$args['mod_table_name']." where id='".$_GET['id']."'");
-    http_redirect("?mod=".$_GET['mod']);
+    setFlush('Запись удалена');
+    http_redirect("?mod=".$_GET['mod'].(isset($_GET['page'])?('&page='.$_GET['page']):''));
   break;
   case 'upitem':
     $id = intval($_GET['id']);

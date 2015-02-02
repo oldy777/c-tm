@@ -1,5 +1,5 @@
 
-<form action="?mod=<?=$_GET['mod']?>&act=additem" method="post" enctype="multipart/form-data">
+<form  method="post" enctype="multipart/form-data">
   <table width="100%" border="0" cellspacing="2" cellpadding="4" class="table">
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['type']=="varchar"){?>

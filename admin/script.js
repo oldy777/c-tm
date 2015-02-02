@@ -24,8 +24,10 @@ $(document).ready(function(){
     $('.del_fr_foto').live('click',function(){
         var img = $(this).attr('rel'),
         cat = $(this).attr('cat'),
+        tbl = $(this).attr('tbl'),
+        link = $(this).attr('link'),
         obj = $(this);
-        $.post('/ajax/delimg.php', {img:img,cat:cat}, function(data){
+        $.post('/ajax/delimg.php', {img:img,cat:cat,tbl:tbl,link:link}, function(data){
             if(data == 1)
             {
                 $(obj).parent().remove();
@@ -53,6 +55,10 @@ $(document).ready(function(){
         return false;
     });
     
+    $('.closeflush').click(function(){
+       $(this).parent('.alert').fadeOut(500); 
+    });
+    
     $('.col_3_top a').click(function(){
         var bg = $(this).attr('class');
         if(bg)
@@ -62,7 +68,16 @@ $(document).ready(function(){
         $.post('/admin/ajax.php',{act:'bg', bg:bg},function(){})
         return false;
     });
+    
+    // scroll body to 0px on click
+    $('#back-top a').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 700);
+        return false;
+    });
 });
+
 
 function onsidebar()
 {

@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link href="/admin/style.css" type="text/css" rel="stylesheet" />
+<link href="/admin/sweet-alert.css" type="text/css" rel="stylesheet" />
 <link href="/js/css/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
 
 <link rel="shortcut icon" href="/admin/favicon.ico" type="image/x-icon" />
@@ -15,6 +16,7 @@
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 <script src="/js/jquery.fancybox-1.2.1.pack.js" type="text/javascript"></script>
 <script src="/js/datepickerRU.js" type="text/javascript"></script>
+<script src="/admin/sweet-alert.min.js"  type="text/javascript"></script>
 <script src="/admin/script.js"  type="text/javascript"></script>
 </head>
 <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" style="<?=$kernel['bg'] ? 'background: url(/admin/images/'.$kernel['bg'] .'.jpg)':''?>">
@@ -27,7 +29,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 <td width="40"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 <td width="250" style="vertical-align: top" class="head_1">
     <div class="logo">
-        <img src="/admin/images/c-tm-logo.png" style="margin-left: -49px; margin-top: 8px; float: left" width="40"/>
+        <img src="/admin/images/c-tm-logo.png" style="margin-left: -79px; margin-top: 8px; float: left; margin-right: 10px" width="80"/>
         Система управления сайтом
         <div class="logo_url"><a target="_blank" href="http://<?=$_SERVER['HTTP_HOST']?>/"><?=$_SERVER['HTTP_HOST']?></a></div>
     </div>
@@ -88,7 +90,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -103,9 +105,6 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                 <?if($cnt != $cur){?>
                 <div class="left_sep" ></div>
                 <?}?>
-<!--		<tr>
-		<td valign="top"><img src="/admin/images/icon_modules.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Модули" ></td>
-		<td valign="top" nowrap>
 
 			<div class="command"><label for="btn_sectionmodules">Модули:</label><a id="btn_sectionmodules" href="javascript:onmodsection('sectionmodules')"><img src="/admin/images/rolldown.gif" width="11" height="11" hspace="4" border="0" ></a>
 			<ul id="sectionmodules">
@@ -136,7 +135,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -184,7 +183,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -232,7 +231,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>
+<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -279,7 +278,14 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
             <?foreach ($args['mod_parents'] as $v){?>
                 / <a href="/admin/?mod=<?=htmlspecialchars($v['name'])?>"><?=htmlspecialchars($v['title'])?></a>
             <?}?>
-            / <a href="/admin/?mod=<?=htmlspecialchars($args['mod'])?>"><?=htmlspecialchars($args['title'])?></a><?=($args['subtitle']? ' / '.htmlspecialchars($args['subtitle']) : '')?></div>
+            / <a href="/admin/?mod=<?=htmlspecialchars($args['mod'])?>"><?=htmlspecialchars($args['title'])?></a>
+            <?if(isset($kernel['brums']) && $kernel['brums']){?>
+                <?foreach ($kernel['brums'] as $v){?>
+                    / <a href="<?=$v['url']?>"><?=htmlspecialchars($v['title'])?></a>
+                <?}?>
+            <?}?> 
+            <?=($args['subtitle']? ' / '.htmlspecialchars($args['subtitle']) : '')?>
+        </div>
 	</td>
 <?if($args['help']){?>
 	<td><div class="global"><a href="<?=htmlspecialchars($args['help'])?>"><img src="/admin/images/icon_help.gif" width="28" height="28" alt="Вызвать справку" ></a><br ><a href="<?=htmlspecialchars($args['help'])?>">помощь</a></div></td>
@@ -302,6 +308,15 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 
 <?if($args['mod']){?>
 	<!-- module -->
+<?if(isFlush()){?>
+        <script>
+            setTimeout(function(){$('.closeflush').trigger('click');}, 5000);
+        </script>
+        <div class="alert alert-success">
+            <button data-dismiss="alert" class="closeflush" type="button">×</button>
+            <?=showFlush();?>
+        </div>
+<?}?>
 <?if($args['ok']){?><div align="center" class="error">Данные сохранены.</div><?}?>
 <?if($args['error']){?><div align="center" class="error">Запись не найдена!</div><?}?>
 <table width="100%" cellspacing="0" cellpadding="0">
@@ -399,5 +414,9 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 <!--/foot -->
 </table>
 
+<p id="back-top">
+    <a href="#top"><span></span></a>
+</p>
 
+</body>
 </html>
