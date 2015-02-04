@@ -1,5 +1,12 @@
 ErrorDocument 404 /errdoc.php
 
+<ifmodule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/gif "access plus 6 months"
+ExpiresByType image/jpeg "access plus 6 months"
+ExpiresByType image/png "access plus 6 months"
+</IfModule>
+
 # xss
 RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
