@@ -454,6 +454,86 @@ CREATE TABLE IF NOT EXISTS `news` (
 `act` INT( 1 ) UNSIGNED NOT NULL
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
+
+
+CREATE TABLE IF NOT EXISTS `vacancy` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `requirements` text NOT NULL,
+  `responsibility` text NOT NULL,
+  `terms` text NOT NULL,
+  `act` tinyint(3) unsigned NOT NULL,
+  `pos` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `title` (`title`,`requirements`,`responsibility`,`terms`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `catalog` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `img` int(10) unsigned NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL default '0',
+  `alias` varchar(255) NOT NULL,
+  `pos` int(10) unsigned NOT NULL,
+  `description` text NOT NULL,
+  `act` tinyint(3) unsigned NOT NULL default '1',
+  `description_seo` text NOT NULL,
+  `keywords` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `catalog_images`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_images` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `img` int(10) unsigned NOT NULL,
+  `catalog_items_id` int(10) unsigned NOT NULL,
+  `pos` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `catalog_items`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_items` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `price` double unsigned NOT NULL,
+  `descr` text NOT NULL,
+  `img` int(10) unsigned NOT NULL,
+  `pos` tinyint(3) unsigned NOT NULL,
+  `catalog_id` int(10) unsigned NOT NULL,
+  `doc` int(10) unsigned NOT NULL,
+  `anons` text NOT NULL,
+  `act` tinyint(3) unsigned NOT NULL default '1',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `catalog_items_detail`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_items_detail` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `catalog_items_id` int(10) unsigned NOT NULL,
+  `text` text NOT NULL,
+  `act` tinyint(3) unsigned NOT NULL,
+  `pos` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 INSERT INTO `modules` (
 `id` ,
 `name` ,
@@ -477,3 +557,6 @@ INSERT INTO `htdocs` (`id`, `id_node`, `id_maket`, `path`, `pos`, `title`, `noti
 ALTER TABLE `accounts` ADD `email` VARCHAR( 255 ) NOT NULL AFTER `address` ;
 
 ALTER TABLE `users` ADD `bg` VARCHAR( 255 ) NOT NULL COMMENT 'бекграунд админки';
+
+INSERT INTO `base`.`modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'vacancy', '0', '0', 'modules', '0', 'Вакансии', NULL);
+INSERT INTO `base`.`modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'catalog', '0', '0', 'modules', '0', 'Каталог', NULL);

@@ -868,6 +868,21 @@ a:visited {
 .list-pages a:hover{ text-decoration:none;}
 .list-pages .active{ text-decoration:none; font-size: 13px}
 
+.radio_top{
+    padding: 10px;
+}
+
+.radio_top label{
+    margin-right: 10px;
+    float: left;
+    text-align: center;
+    font-weight: bold;
+}
+
+.radio_top label input{
+    display: block;
+}
+
 
 .alert-success {
     background-color: #dff0d8;
@@ -903,6 +918,18 @@ button.closeflush {
     text-shadow: 0 1px 0 #ffffff;
 }
 
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 45%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
 
 #back-top {
     position: fixed;

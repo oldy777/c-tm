@@ -294,10 +294,7 @@ case 'adddoc':
     // inherit
     $args['id_maket']    = (!isset($_POST['id_maket']) || $_POST['id_maket']=="NULL"? NULL : intval($_POST['id_maket']));
     $args['keywords']    = (!isset($_POST['keywords']) || $_POST['keywords']=="NULL"? NULL : trim($_POST['keywords']));
-    $args['description'] = (!isset($_POST['description']) || $_POST['description']=="NULL"? NULL : trim($_POST['description']));
-    
-    $args['seo1']    = (!isset($_POST['seo1']) || !$_POST['seo1']? '' : trim($_POST['seo1']));
-    $args['seo2'] = (!isset($_POST['seo2']) || !$_POST['seo2']? '' : trim($_POST['seo2']));
+    $args['description'] = (!isset($_POST['description']) || $_POST['description']=="NULL"? NULL : trim($_POST['description']));   
     
     // check
     if($args['title']=='') { $errors['title'] = true; }
@@ -319,8 +316,6 @@ case 'adddoc':
       $data['hidden']      = $args['hidden'];
       $data['keywords']    = $args['keywords'];
       $data['description'] = $args['description'];
-      $data['seo1']        = $args['seo1'];
-      $data['seo2']        = $args['seo2'];
       $target = "?mod=htdocs&act=docs&id=". $args['parent']['id'];
       if($id_doc = $tree->insertdoc($args['parent']['id'], $data)){
         $target.= '&ok';
@@ -396,8 +391,6 @@ case 'editdoc':
     $args['keywords']    = (!isset($_POST['keywords']) || $_POST['keywords']=="NULL"? NULL : trim($_POST['keywords']));
     $args['description'] = (!isset($_POST['description']) || $_POST['description']=="NULL"? NULL : trim($_POST['description']));
     
-    $args['seo1']    = (!isset($_POST['seo1']) || !$_POST['seo1']? '' : trim($_POST['seo1']));
-    $args['seo2'] = (!isset($_POST['seo2']) || !$_POST['seo2']? '' : trim($_POST['seo2']));
     
     // еслипустой заголовок то ошибка
     if($args['title']=='' && !$args['isindex']) { $errors['title'] = true; }
@@ -418,8 +411,6 @@ case 'editdoc':
       $data['id_maket']    = $args['id_maket'];
       $data['hidden']      = $args['hidden'];
       $data['keywords']    = $args['keywords'];
-      $data['seo1']        = $args['seo1'];
-      $data['seo2']        = $args['seo2'];
       $data['description'] = $args['description'];
       $data['eval']        = $args['eval'];
       $data['pos']         = $args['pos'];

@@ -141,22 +141,6 @@ function checkform(form)
     </td>
   </tr>
 <?}?>
-  <tr>
-    <th align="right" nowrap="nowrap">
-      SEO текст 1 колонка:<br />
-    </th>
-    <td>
-     <textarea name="seo1" style="width:100%;height:100px"><?=trim($args['seo1'])?></textarea><br />
-    </td>
-  </tr>
-  <tr>
-    <th align="right" nowrap="nowrap">
-      SEO текст 2 колонка:<br />
-    </th>
-    <td>
-      <textarea name="seo2" style="width:100%;height:100px"><?=trim($args['seo2'])?></textarea><br />
-    </td>
-  </tr>
  
   <tr>
     <th align="right" nowrap="nowrap">
@@ -209,7 +193,7 @@ function checkform(form)
     <td width="25%">&nbsp;</td>
     <td width="75%">
       <input type="submit" class="button" value="Сохранить!" />
-      <input type="reset" class="button" value="Отменить" onclick="oncancel()" />
+      <input type="reset" class="button btn-warning" value="Отменить" onclick="oncancel()" />
     </td>
   </tr>
 </table>

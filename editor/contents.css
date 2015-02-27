@@ -23,3 +23,30 @@ ol,ul,dl
 	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
     padding:0 40px;
 }
+
+
+span.m_box_s.h_540 {
+    background: none repeat scroll 0 0 #65a538;
+}
+span.m_box_s.h_960 {
+    background: none repeat scroll 0 0 #f58b41;
+}
+span.m_box_s.h_1460 {
+    background: none repeat scroll 0 0 #0055b7;
+}
+span.m_box_s.h_2200 {
+    background: none repeat scroll 0 0 #0aa9e2;
+}
+span.m_box_s {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: -1px 0 5px 0 rgba(50, 50, 50, 0.75);
+    color: #fff;
+    font-family: "proxima_nova_rgbold";
+    font-size: 15px;
+    height: 21px;
+    line-height: 21px;
+    margin-top: -4px;
+    padding: 0 6px;
+    position: relative;
+}

@@ -16,4 +16,5 @@ CKEDITOR.editorConfig = function( config )
    config.filebrowserUploadUrl = '/editor/plugins/kcfinder/upload.php?type=files';
    config.filebrowserImageUploadUrl = '/editor/plugins/kcfinder/upload.php?type=images';
    config.filebrowserFlashUploadUrl = '/editor/plugins/kcfinder/upload.php?type=flash';
+   
 };

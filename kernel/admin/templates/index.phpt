@@ -15,6 +15,7 @@
 <script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 <script src="/js/jquery.fancybox-1.2.1.pack.js" type="text/javascript"></script>
+<script src="/admin/jquery-ui-timepicker-addon.min.js"  type="text/javascript"></script>
 <script src="/js/datepickerRU.js" type="text/javascript"></script>
 <script src="/admin/sweet-alert.min.js"  type="text/javascript"></script>
 <script src="/admin/script.js"  type="text/javascript"></script>
@@ -44,15 +45,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
             <a href="/admin/logout.php">Выйти</a>
         </span>
     </div>
-<!--    <table width="100%" height="60" cellpadding="0" cellspacing="0">
-        <tr valign="middle">
-            <td align="left">&nbsp</td>
-            <td>
-                <div class="global"><a href="/admin/logout.php"><img src="/admin/images/icon_exit.gif" width="28" height="28" alt="Выйти из системы" ></a><br ><a href="/admin/logout.php">выход</a></div>
-                <div class="global"><a href="/"><img src="/admin/images/icon_start.gif" width="28" height="28" alt="На сайт" ></a><br ><a href="/">На сайт</a></div>
-            </td>
-        </tr>
-    </table>-->
+
 </td>
 <td width="40"><img src="/admin/images/none.gif" width="5" height="1" alt="" ></td>
 </tr>
@@ -65,12 +58,6 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
 	<!-- main table -->
 	<table width="250" height="100%" cellpadding="0" cellspacing="0"  ><tr>
 	<td width="250" bgcolor="#EDF8FF" background="/admin/images/bg01.gif" valign="top" id="sidebar" class="col_1_top" nowrap>
-
-		<!--<table width="100%" cellpadding="0" cellspacing="0">-->
-<!--		<tr>
-		<td width="1%"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td>
-		<td width="99%"><img src="/admin/images/none.gif" width="1" height="1" alt="" ></td>
-		</tr>-->
 
 		<!-- modules -->
                 
@@ -90,7 +77,6 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -105,67 +91,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                 <?if($cnt != $cur){?>
                 <div class="left_sep" ></div>
                 <?}?>
-
-			<div class="command"><label for="btn_sectionmodules">Модули:</label><a id="btn_sectionmodules" href="javascript:onmodsection('sectionmodules')"><img src="/admin/images/rolldown.gif" width="11" height="11" hspace="4" border="0" ></a>
-			<ul id="sectionmodules">
-<?foreach($args['modules'] as $i)if($i['section']=='modules'){?>
-			<li class="<?=($i['current']? 'selected' : '')?>"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></li>
-<?}?>
-			</ul>
-			</div>
-
-		</td>
-		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
-
-		<!-- tools -->
-                <table width="100%" cellspacing="0">
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="menu_tr_first">
-                                <h1>Инструменты</h1>
-                            </td>
-                        </tr>
-                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
-                            if($i['section']=='tools'){
-                         ?>
-                            <?if($i['current']){$cur = $cnt+1;?>
-                                <tr>
-                                    <td class="menu_act_before" colspan="3"></td>
-                                </tr>
-                            <?}?>
-                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
-                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
-                                <td class="menu_3"></td>
-                            </tr>
-                            <?if($i['current']){?>
-                                <tr>
-                                    <td class="menu_act_after" colspan="3"></td>
-                                </tr>
-                            <?}?>
-                        <?$cnt++;}?>
-                        </tbody>
-                </table>
-                <?if($cnt != $cur){?>
-                <div class="left_sep"></div>
-                <?}?>
-<!--		<tr>
-		<td valign="top"><img src="/admin/images/icon_tools.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Инструменты" ></td>
-		<td valign="top" nowrap>
-
-			<div class="command"><label for="btn_sectiontools">Инструменты:</label><a id="btn_sectiontools" href="javascript:onmodsection('sectiontools')"><img src="/admin/images/rolldown.gif" width="11" height="11" hspace="4" border="0" ></a>
-			<ul id="sectiontools">
-<?foreach($args['modules'] as $i)if($i['section']=='tools'){?>
-			<li class="<?=($i['current']? 'selected' : '')?>"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></li>
-<?}?>
-			</ul>
-			</div>
-
-		</td>
-		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
-
+                         
 		<!-- struct -->
                 <table width="100%" cellspacing="0">
                     <tbody>
@@ -198,21 +124,7 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                 <?if($cnt != $cur){?>
                 <div class="left_sep"></div>
                 <?}?>
-<!--		<tr>
-		<td valign="top"><img src="/admin/images/icon_struct.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Структура сайта" ></td>
-		<td valign="top" nowrap>
 
-			<div class="command"><label for="btn_sectionstruct">Структура&nbsp;сайта:</label><a id="btn_sectionstruct" href="javascript:onmodsection('sectionstruct')"><img src="/admin/images/rolldown.gif" width="11" height="11" hspace="4" border="0" ></a>
-			<ul id="sectionstruct">
-<?foreach($args['modules'] as $i)if($i['section']=='struct'){?>
-			<li class="<?=($i['current']? 'selected' : '')?>"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></li>
-<?}?>
-			</ul>
-			</div>
-
-		</td>
-		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
 
 		<!-- access -->
                 <table width="100%" cellspacing="0">
@@ -231,7 +143,6 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                                 </tr>
                             <?}?>
                             <tr <?=($i['current']? 'class="menu_act"' : '')?> >
-<!--                                <td class="menu_1"><img alt="" src="/admin/images/icons/<?=htmlspecialchars($i['name'])?>.png"></td>-->
                                 <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
                                 <td class="menu_3"></td>
                             </tr>
@@ -246,21 +157,39 @@ xmp{line-height:10px; margin:0; padding:5; font-size:11px; font-weight:bold;}
                 <?if($cnt != $cur){?>
                 <div class="left_sep"></div>
                 <?}?>
-<!--		<tr>
-		<td valign="top"><img src="/admin/images/icon_access.gif" width="28" height="28" style="margin:0px 10px 0px 15px" alt="Пользователи" ></td>
-		<td valign="top" nowrap>
+                
+                <table width="100%" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="menu_tr_first">
+                                <h1>Инструменты</h1>
+                            </td>
+                        </tr>
+                        <?$cnt = 0;$cur=0;foreach($args['modules'] as $k=>$i)
+                            if($i['section']=='tools'){
+                         ?>
+                            <?if($i['current']){$cur = $cnt+1;?>
+                                <tr>
+                                    <td class="menu_act_before" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                            <tr <?=($i['current']? 'class="menu_act"' : '')?> >
+                                <td class="menu_2"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></td>
+                                <td class="menu_3"></td>
+                            </tr>
+                            <?if($i['current']){?>
+                                <tr>
+                                    <td class="menu_act_after" colspan="3"></td>
+                                </tr>
+                            <?}?>
+                        <?$cnt++;}?>
+                        </tbody>
+                </table>
+                <?if($cnt != $cur){?>
+                <div class="left_sep"></div>
+                <?}?>
+                
 
-			<div class="command"><label for="btn_sectionaccess">Пользователи:</label><a id="btn_sectionaccess" href="javascript:onmodsection('sectionaccess')"><img src="/admin/images/rolldown.gif" width="11" height="11" hspace="4" border="0" ></a>
-			<ul id="sectionaccess">
-<?foreach($args['modules'] as $i)if($i['section']=='access'){?>
-			<li class="<?=($i['current']? 'selected' : '')?>"><a href="/admin/?mod=<?=htmlspecialchars($i['name'])?>" title="<?=htmlspecialchars($i['descr'])?>"><?=htmlspecialchars($i['title'])?></a></li>
-<?}?>
-			</ul>
-			</div>
-
-		</td>
-		</tr>
-		<tr><td colspan="2"><img src="/admin/images/none.gif" width="1" height="15" alt="" ></td></tr>-->
                 </td></tr>
 		</table>
 

@@ -31,9 +31,12 @@ var fixHelper = function(e, ui) {
 $(document).ready(function(){
     $(".table tbody").sortable({helper:fixHelper,opacity: 0.8,update:function(event, ui){
             
-            newpos(ui.item.children('.item').children('.inp'),1);
+            if(ui.position.top > ui.originalPosition.top)
+                newpos(ui.item.children('.item').children('.inp'),2);
+            else
+                newpos(ui.item.children('.item').children('.inp'),1);
     }});
-})
+});
 
 </script>
 <?}?>

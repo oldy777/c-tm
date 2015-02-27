@@ -27,9 +27,12 @@ function newpos(obj,act){
                 if(act == 0){
                     var new_pos = parseInt($(obj).val());
                 }     
-                if(act == 1)
+                if(act == 1 || act == 2)
                 {
-                    var pred = parseInt($(obj).parent().parent().prevAll( '.container:first' ).children('.item').children('.inp').val());
+                    if(act == 1)
+                        var pred = parseInt($(obj).parent().parent().nextAll( '.container:first' ).children('.item').children('.inp').val());
+                    else
+                        var pred = parseInt($(obj).parent().parent().prevAll( '.container:first' ).children('.item').children('.inp').val());
                     
                     if(pred || pred == 0){
                         new_pos = pred;

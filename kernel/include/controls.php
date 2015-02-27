@@ -37,8 +37,8 @@ function datebox_create($name, $value=NULL)
     $ret.= "<option value=\"{$k}\"{$sel}>{$v}</option>";
   }
   $ret.= "</select>&nbsp;";
-  $ret.= "<input type=\"text\" maxlength=\"2\" size=\"2\" value=\"{$d}\" name=\"{$name}[d]\" id=\"{$name}[d]\" onkeydow n=\"return inputinckey(event,'{$name}[d]',1,1,31)\" onkeypress=\"return inputfilter(event, /^[0-9]+$/)\" />,&nbsp;&nbsp;&nbsp;&nbsp;";
-  $ret.= "<input type=\"text\" maxlength=\"4\" size=\"4\" value=\"{$y}\" name=\"{$name}[y]\" id=\"{$name}[y]\" onkeydo wn=\"return inputinckey(event,'{$name}[y]',1)\" onkeypress=\"return inputfilter(event, /^[0-9]+$/)\" />";
+  $ret.= "<input style=\"width:50px\" type=\"text\" maxlength=\"2\" size=\"2\" value=\"{$d}\" name=\"{$name}[d]\" id=\"{$name}[d]\" onkeydow n=\"return inputinckey(event,'{$name}[d]',1,1,31)\" onkeypress=\"return inputfilter(event, /^[0-9]+$/)\" />,&nbsp;&nbsp;&nbsp;&nbsp;";
+  $ret.= "<input style=\"width:50px\" type=\"text\" maxlength=\"4\" size=\"4\" value=\"{$y}\" name=\"{$name}[y]\" id=\"{$name}[y]\" onkeydo wn=\"return inputinckey(event,'{$name}[y]',1)\" onkeypress=\"return inputfilter(event, /^[0-9]+$/)\" />";
   return $ret;
 }
 

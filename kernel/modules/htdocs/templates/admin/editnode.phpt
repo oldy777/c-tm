@@ -137,8 +137,8 @@ function checkform(form)
    <td width="25%">&nbsp;</td>
    <td width="75%">
       <input type="submit" class="button" value="Сохранить!" />
-      <input type="submit" class="button" name="next" value="Далее" />
-      <input type="reset" class="button" value="Отменить" onclick="oncancel()" />
+      <input type="submit" class="button btn-primary" name="next" value="Далее" />
+      <input type="reset" class="button btn-warning" value="Отменить" onclick="oncancel()" />
    </td>
   </tr>
 </table>
