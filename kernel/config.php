@@ -23,7 +23,7 @@ $config['debug']['addr']    = array('localhost');
 
 $config['db']['lib']        = 'mysql.php';
 $config['db']['class']        = 'db_mysql';
-$config['db']['host']        = '91.218.228.116';
+$config['db']['host']        = 'localhost';
 $config['db']['user']        = 'base';
 $config['db']['passwd']        = '1OLbKjRQ';
 $config['db']['name']        = 'base';
