@@ -13,6 +13,8 @@ define('TMP_DIR', KERNEL_DIR. '/tmp', true);
 define('IMAGE_CACHE_DIR', KERNEL_DIR.'/cache/images',true);
 define('HTDOC_CACHE_DIR', KERNEL_DIR.'/cache/htdocs',true);
 define('TEMP_CACHE_DIR', KERNEL_DIR.'/cache/templates',true);
+define('UPLOAD_IMAGES_PATH', '/upload/images/',true);
+define('UPLOAD_FILES_PATH', '/upload/files/',true);
 
 // default include path
 set_include_path(INCLUDE_DIR);

@@ -1,5 +1,5 @@
 
-<h1><?=_('Новости')?></h1>
+<h1>Новости</h1>
 
 <ul >
     <?foreach($args['items'] as $v){?>
@@ -16,7 +16,7 @@
     <table align=center>
         <tr>
             <td>
-                <a href="/news/page-<?= $args['page'] > 1 ? ($args['page'] - 1) : $args['page'] ?>" class="prev disabled"><span><?=_('предыдущая')?><br><?=_('страница')?></span><i class="i i-prev"></i></a>
+                <a href="/news/page-<?= $args['page'] > 1 ? ($args['page'] - 1) : $args['page'] ?>" class="prev disabled"><span>предыдущая<br>страница</span><i class="i i-prev"></i></a>
             </td>
             <td>
                 <div class="pages">
@@ -40,7 +40,7 @@
                 </div>
             </td>
             <td class="last">
-                <a href="/news/page-<?= $args['page'] < $args['pages'] ? ($args['page'] + 1) : $args['page'] ?>" class="next"><span><?=_('следующая')?><br><?=_('страница')?></span><i class="i i-next"></i></a>
+                <a href="/news/page-<?= $args['page'] < $args['pages'] ? ($args['page'] + 1) : $args['page'] ?>" class="next"><span>следующая<br>страница</span><i class="i i-next"></i></a>
             </td>
         </tr>
     </table>

@@ -22,20 +22,21 @@ $args['mod_table_name3']='catalog_items_detail';
 $args['mod_table_images']='catalog_images';
 $args['mod_pos']=true;                  # Вкл/выкл позиция
 $args['mod_pos2']=true;  
+$args['mod_pos3']=true;  
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
   Array('name'=>'title','title'=>'Название категории','type'=>'varchar','view'=>1, 'link'=>1),
-//  Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
-//  Array('name'=>'description','title'=>'Описание','type'=>'editor'),
-//  Array('name'=>'img','title'=>'Картинка','type'=>'image'),
-//  Array('name'=>'description_seo','title'=>'Description','type'=>'text'),
-//  Array('name'=>'keywords','title'=>'Keywords','type'=>'text'),
+  Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
+  Array('name'=>'description','title'=>'Описание','type'=>'editor'),
+  Array('name'=>'img','title'=>'Картинка','type'=>'image'),
+  Array('name'=>'description_seo','title'=>'Description','type'=>'text'),
+  Array('name'=>'keywords','title'=>'Keywords','type'=>'text'),
   Array('name'=>'act','title'=>'Показывать','type'=>'option'),
 );
 
 $args['mod_fields2']=Array(              # Поля
     Array('name'=>'title','title'=>'Название ','type'=>'varchar','view'=>1, 'link'=>1),
-//    Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
+    Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
     Array('name'=>$args['mod_table_name'].'_id','title'=>'Категория','type'=>'option_struct'),
     Array('name'=>'price','title'=>'Цена','type'=>'varchar','view'=>1,),
     Array('name'=>'doc','title'=>'Документация','type'=>'file'),
@@ -90,83 +91,16 @@ switch($action){
   case "additem":
     if($_SERVER['REQUEST_METHOD']=='POST'){
       foreach($args['mod_fields'] as $f){
-        if($f['type']=="image"){
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), 'prices', $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="pass"){
-          $val[$f['name']]=$_POST[$f['name']] == $_POST['passwd2'] ? md5($_POST[$f['name']]):'';
-        }
-        if($f['type']=="option"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
-
       }
       
       if($args['mod_pos']){
-        if($args['mod_pos_reverse']){
-          $val['pos']=0;
-          $q->query("select * from ".$args['mod_table_name']." WHERE parent_id=".($_GET['f_id'] ? $_GET['f_id']:0));
-          $args['items']=$q->get_allrows();
-          foreach($args['items'] as $i){
-            $pos=$i['pos']+1;
-            $q->query("update ".$args['mod_table_name']." set pos='".$pos."' ");
-          }
-        }else{
-          $q->query("select max(pos) from ".$args['mod_table_name']);
-          $tmp = $q->get_cell();
-          if($tmp || $tmp == 0)
-            $val['pos']=$tmp + 1;
-        }
+        $where = " parent_id = ".((int)$_GET['f_id'] ? (int)$_GET['f_id']:0);
+        $val['pos'] = getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['f_id'])
@@ -180,72 +114,16 @@ switch($action){
       $template="item-add.phpt";
     };
   break;
+  
   case "edititem":
     if($_SERVER['REQUEST_METHOD']=='POST'){
 
       foreach($args['mod_fields'] as $f){
-        if($f['type']=="image"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
-          }
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), $args['mod_table_name'], $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
-          }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="option"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
       }
 
       $q->format("update ".$args['mod_table_name']." set %s where id='".$_GET['id']."'",$val);
@@ -291,86 +169,16 @@ switch($action){
  case "addpr":
     if($_SERVER['REQUEST_METHOD']=='POST'){
       foreach($args['mod_fields2'] as $f){
-        if($f['type']=="image"){
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), 'prices', $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="pass"){
-          $val[$f['name']]=$_POST[$f['name']] == $_POST['passwd2'] ? md5($_POST[$f['name']]):'';
-        }
-        if($f['type']=="option"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="checkbox"){
-          $val[$f['name']]=isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
-
       }
       
       if($args['mod_pos2']){
-        if($args['mod_pos_reverse']){
-          $val['pos']=0;
-          $q->query("select * from ".$args['mod_table_name2']);
-          $args['items']=$q->get_allrows();
-          foreach($args['items'] as $i){
-            $pos=$i['pos']+1;
-            $q->query("update ".$args['mod_table_name2']." set pos='".$pos."' ");
-          }
-        }else{
-          $q->query("select max(pos) from ".$args['mod_table_name2']);
-          $tmp = $q->get_cell();
-          if($tmp || $tmp == 0)
-            $val['pos']=$tmp + 1;
-        }
+        $where = $args['mod_table_name']."_id = ".(int)$_GET['f_id'];
+        $val['pos'] = getPosForNewItem($args['mod_table_name2'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['f_id'])
@@ -389,71 +197,11 @@ switch($action){
     if($_SERVER['REQUEST_METHOD']=='POST'){
 
       foreach($args['mod_fields2'] as $f){
-        if($f['type']=="image"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
-          }
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), $args['mod_table_name'], $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
-          }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if(($f['type']=="option" || $f['type']=='option_struct') && $_POST[$f['name']] != ''){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="checkbox"){
-          $val[$f['name']]=isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
       }
 
       $q->format("update ".$args['mod_table_name2']." set %s where id='".$_GET['id']."'",$val);
@@ -490,20 +238,14 @@ switch($action){
           $args[$args['mod_table_name'].'_id'][$v['parent_id']][] = $v;
       }
       
-
-      
       $args['param'] = array();
       $args['postavka'] = array();
 
-
       $template="item-edit2.phpt";
-    };
+    }
   break;
   
-  
-  
   case "delpr":
-
     $q->query("delete from ".$args['mod_table_name2']." where id='".$_GET['id']."'");
     http_redirect("?mod=".$_GET['mod'].(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:'').(isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:'').(isset($_GET['page']) && $_GET['page'] ? '&page='.$_GET['page']:''));
   break;
@@ -516,115 +258,45 @@ switch($action){
   break;
 
 case "price":
-        $ret['sux'] = 0;
-        if(isset($_POST['id']) && $_POST['id'])
-        {
-            $val = array('price'=>$_POST['title']);
-            $q->format("UPDATE ".$args['mod_table_name2']." SET %s WHERE id = %d", $val,$_POST['id']);
-            $ret['sux'] = 1;
-        }
-        echo json_encode($ret);
-        exit;
-        break;
+    $ret['sux'] = 0;
+    if(isset($_POST['id']) && $_POST['id'])
+    {
+        $val = array('price'=>$_POST['title']);
+        $q->format("UPDATE ".$args['mod_table_name2']." SET %s WHERE id = %d", $val,$_POST['id']);
+        $ret['sux'] = 1;
+    }
+    echo json_encode($ret);
+    exit;
+    break;
   
   case "details":
-            $result['title']="Детали проекта ";
-            $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=editpr'.(isset($_GET['id']) && $_GET['id'] ? '&id='.$_GET['id']:'').(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:''), 'title'=>'Назад ');
-            $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=adddetail'.(isset($_GET['id']) && $_GET['id'] ? '&id='.$_GET['id']:'').(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:''), 'title'=>'Добавить детали');
-            $args['items'] = array();
-            
+        $result['title']="Детали проекта ";
+        $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=editpr'.(isset($_GET['id']) && $_GET['id'] ? '&id='.$_GET['id']:'').(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:''), 'title'=>'Назад ');
+        $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=adddetail'.(isset($_GET['id']) && $_GET['id'] ? '&id='.$_GET['id']:'').(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:''), 'title'=>'Добавить детали');
+        $args['items'] = array();
 
-            $q->format("select * from ".$args['mod_table_name3']." T "
-                    ." WHERE ".$args['mod_table_name2']."_id = %d "
-                    ." order by id", $_GET['id']);
-            $args['items'] = $q->get_allrows();
 
-            $template="details.phpt";
+        $q->format("select * from ".$args['mod_table_name3']." T "
+                ." WHERE ".$args['mod_table_name2']."_id = %d "
+                ." order by id", $_GET['id']);
+        $args['items'] = $q->get_allrows();
+
+        $template="details.phpt";
         break;
     
   case "adddetail":
     if($_SERVER['REQUEST_METHOD']=='POST'){
       foreach($args['mod_fields3'] as $f){
-        if($f['type']=="image"){
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), 'prices', $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="pass"){
-          $val[$f['name']]=$_POST[$f['name']] == $_POST['passwd2'] ? md5($_POST[$f['name']]):'';
-        }
-        if($f['type']=="option"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="checkbox"){
-          $val[$f['name']]=isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
-
       }
       
       if($args['mod_pos']){
-        if($args['mod_pos_reverse']){
-          $val['pos']=0;
-          $q->query("select * from ".$args['mod_table_name3']);
-          $args['items']=$q->get_allrows();
-          foreach($args['items'] as $i){
-            $pos=$i['pos']+1;
-            $q->query("update ".$args['mod_table_name3']." set pos='".$pos."' ");
-          }
-        }else{
-          $q->query("select max(pos) from ".$args['mod_table_name3']);
-          $tmp = $q->get_cell();
-          if($tmp || $tmp == 0)
-            $val['pos']=$tmp + 1;
-        }
+        $where = $args['mod_table_name2']."_id = ".(int)$_GET['id'];
+        $val['pos'] = getPosForNewItem($args['mod_table_name3'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['id'])
@@ -636,78 +308,18 @@ case "price":
       $result['commands'][] = array('path'=>'/admin/?mod='.$_GET['mod'].'&act=details'.(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:'').(isset($_GET['id']) && $_GET['id'] ? '&id='.$_GET['id']:''), 'title'=>'К списку');
       $result['title']="Добавление ".$args['mod_name'][1];
       $template="item-adddetail.phpt";
-    };
+    }
   break;
   
   case "editdetail":
     if($_SERVER['REQUEST_METHOD']=='POST'){
 
       foreach($args['mod_fields3'] as $f){
-        if($f['type']=="image"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
+          switch ($f['type']) {
+              default:
+                  $val[$f['name']] = checkModFields($f);
+                  break;
           }
-          if($_FILES[$f['name']]['error']==0){
-            image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
-            $q->query("select * from modules_images");
-            $images=$q->get_allrows();
-            $val[$f['name']]=$images[($q->num_rows()-1)]['id'];
-          };
-        }
-        
-        if($f['type']=="file"){
-          if($_POST[$f['name'].'_del']==1){
-            $val[$f['name']]=0;
-          }
-          if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
-          {
-            $args['ext'] = strtolower(end(explode('.',$_FILES[$f['name']]['name'])));
-            if(!in_array($args['ext'], $kernel['config']['files']['ext'])) { $errors['ext'] = true; }
-            if(empty($errors))
-            {
-            
-              $args['name'] = preg_replace('~(\.[a-zA-Z0-9]+)$~','',$_FILES[$f['name']]['name']);
-              $q->format("INSERT INTO modules_files SET id='%d',section='%s',name='%s',path='%s',ext='%s',mime='%s',size='%d',info='".$args['info']."',created='%d',updated='%d'", 
-              $kernel['db']->next_id('files'), $args['mod_table_name'], $args['name']. ".". $args['ext'], '', $args['ext'], $_FILES[$f['name']]['type'], $_FILES[$f['name']]['size'], time(), time());
-              $id = $kernel['db']->last_id('files');
-              if($args['name']=='') { $args['name'] = $id; }
-              $path = NULL;
-              do
-              {
-                $name = preg_replace('~[^a-z0-9\-.]+~', '_', strtolower(translit($args['name'])));
-                if($path!==NULL) { $name.= rand(1, 100); }
-                print $name;
-                $path = "/upload/files/". $name. ".". $args['ext'];
-              }
-              while(file_exists($_SERVER['DOCUMENT_ROOT']. $path));
-              copy($_FILES[$f['name']]['tmp_name'], $_SERVER['DOCUMENT_ROOT']. $path);
-              setfileperm($_SERVER['DOCUMENT_ROOT']. $path);
-              $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
-    	  
-    	        $q->query("select id from modules_files order by id desc limit 0,1");
-          	  $val[$f['name']]=$q->get_cell();
-            }
-          }
-        }
-        
-        if($f['type']=="varchar"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="text"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="editor"){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if(($f['type']=="option" || $f['type']=='option_struct') && $_POST[$f['name']] != ''){
-          $val[$f['name']]=$_POST[$f['name']];
-        }
-        if($f['type']=="checkbox"){
-          $val[$f['name']]=isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
-        }
-        if($f['type']=="date"){
-          $val[$f['name']]=parse_date(trim($_POST[$f['name']]));
-        }
       }
 
       $q->format("update ".$args['mod_table_name3']." set %s where id='".$_GET['detail']."'",$val);
@@ -733,7 +345,7 @@ case "price":
       }
 
       $template="item-editdetail.phpt";
-    };
+    }
   break;
   
   case "deldetail":
@@ -775,8 +387,7 @@ case "price":
         {
             $order = 'pos';
             $type = 'ASC';
-        }
-        
+        } 
     }
     
     if(isset($_GET['f_id']) && (int)$_GET['f_id'])

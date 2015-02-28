@@ -1,4 +1,4 @@
-<? 
+<?php 
    $content = '';
    switch($kernel['path'][1]){
       default:

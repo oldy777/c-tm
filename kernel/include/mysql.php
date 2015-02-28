@@ -437,6 +437,52 @@ class query_mysql
   {
       return $this->db->last_id();
   }
+  
+  /**
+   * Get row by id number
+   * @param string $table table name
+   * @param int $id id number
+   * @return array
+   */
+  function z_getRowById($table, $id) 
+  {
+      $this->format("SELECT * FROM `%s` WHERE id = %d", $table, $id);
+      $ret = $this->get_row();
+      return $ret;
+  }
+  
+  /**
+   * Get all rows with pager
+   * @param string $table table name
+   * @param int $page page number
+   * @param int $num number of items on page
+   * @param sring $where
+   * @param string $order
+   * @return array
+   */
+  function z_get_allRowsWithPager($table, $page, $num, $where='1=1', $order = 'id DESC') 
+  {
+        $args = array();
+        $this->query("SELECT SQL_CALC_FOUND_ROWS T.* "
+                ." FROM ".$table." T"
+                ." WHERE ".$where
+                ." ORDER BY ".$order
+                ." LIMIT " . ($page - 1) * $num . "," . $num);
+        $args['items'] = $this->get_allrows();
+        
+        if($args['items'])
+        {
+            $this->query("SELECT FOUND_ROWS() as cnt");
+            $all = $this->get_cell();
+            $args['pages'] = ceil($all / $num);
+        }
+        else
+        {
+            $args['pages'] = 0;
+        }
+        
+        return $args;
+  }
 
 }
 ?>
