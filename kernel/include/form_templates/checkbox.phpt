@@ -1,0 +1,1 @@
+<input type="checkbox" value="1" name="<?=$args['_field']['name']?>" <?=isset($args['item'][$args['_field']['name']]) && $args['item'][$args['_field']['name']] ? 'checked="true"':''?> />

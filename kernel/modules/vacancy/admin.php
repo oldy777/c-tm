@@ -20,11 +20,11 @@ $args['mod_table_name']="vacancy";             # Имя таблицы
 $args['mod_pos']=true;                  # Вкл/выкл позиция
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
-  Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1, 'link'=>1),
-  Array('name'=>'responsibility','title'=>'Обязанности','type'=>'editor','view'=>0, 'alt'=>''),//alt-имя поля для сортировки из другой связанной таблицы
-  Array('name'=>'requirements','title'=>'Требования','type'=>'editor','view'=>0),
-  Array('name'=>'terms','title'=>'Условия','type'=>'editor','view'=>0),
-  Array('name'=>'act','title'=>'Показывать','type'=>'option','view'=>0),
+  Array('name'=>'title','title'=>'Название','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1, 'link'=>1),
+  Array('name'=>'responsibility','title'=>'Обязанности','type'=>ValuesFnc::VAL_EDITOR,'view'=>0, 'alt'=>''),//alt-имя поля для сортировки из другой связанной таблицы
+  Array('name'=>'requirements','title'=>'Требования','type'=>ValuesFnc::VAL_EDITOR,'view'=>0),
+  Array('name'=>'terms','title'=>'Условия','type'=>ValuesFnc::VAL_EDITOR,'view'=>0),
+  Array('name'=>'act','title'=>'Показывать','type'=>ValuesFnc::VAL_OPTION,'view'=>0),
 );
 
 $args['options']['act']['values'][1] = 'Да';
@@ -38,13 +38,13 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
       
       if($args['mod_pos']){
-        $val['pos'] = getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse']);
+        $val['pos'] = ValuesFnc::getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse']);
       }
 
       $q->format("insert into ".$args['mod_table_name']." set %s",$val);
@@ -63,7 +63,7 @@ switch($action){
         foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }

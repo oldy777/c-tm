@@ -1,0 +1,1 @@
+<textarea name="<?=$args['_field']['name']?>" style="width:100%;height:100px"><?=htmlspecialchars($args['item'][$args['_field']['name']])?></textarea>

@@ -19,13 +19,13 @@ $args['mod_table_name']="news";             # Имя таблицы
 $args['mod_pos']=false;                  # Вкл/выкл позиция
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
-  Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1, 'link'=>1),
-  Array('name'=>'anons','title'=>'Анонс','type'=>'text','view'=>0, 'alt'=>''),//alt-имя поля для сортировки из другой связанной таблицы
-  Array('name'=>'text','title'=>'Полный текст','type'=>'editor','view'=>0),
-  Array('name'=>'date','title'=>'Дата','type'=>'date','view'=>0),
-  Array('name'=>'act','title'=>'Показывать','type'=>'option','view'=>0),
-  Array('name'=>'description','title'=>'Description(SEO)','type'=>'text','view'=>0),
-  Array('name'=>'keywords','title'=>'Keywords(SEO)','type'=>'text','view'=>0),
+  Array('name'=>'title','title'=>'Название','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1, 'link'=>1),
+  Array('name'=>'anons','title'=>'Анонс','type'=>ValuesFnc::VAL_TEXTAREA,'view'=>0, 'alt'=>''),//alt-имя поля для сортировки из другой связанной таблицы
+  Array('name'=>'text','title'=>'Полный текст','type'=>ValuesFnc::VAL_EDITOR,'view'=>0),
+  Array('name'=>'date','title'=>'Дата','type'=>ValuesFnc::VAL_DATE,'view'=>0),
+  Array('name'=>'act','title'=>'Показывать','type'=>ValuesFnc::VAL_OPTION,'view'=>0),
+  Array('name'=>'description','title'=>'Description(SEO)','type'=>ValuesFnc::VAL_TEXTAREA,'view'=>0),
+  Array('name'=>'keywords','title'=>'Keywords(SEO)','type'=>ValuesFnc::VAL_TEXTAREA,'view'=>0),
 );
 
 $args['options']['act']['values'][1] = 'Да';
@@ -39,13 +39,13 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
       
       if($args['mod_pos']){
-        $val['pos'] = getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse']);
+        $val['pos'] = ValuesFnc::getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse']);
       }
 
       $q->format("insert into ".$args['mod_table_name']." set %s",$val);
@@ -62,7 +62,7 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }

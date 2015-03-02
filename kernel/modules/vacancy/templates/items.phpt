@@ -80,7 +80,11 @@ $width=ceil($width/$args['mod_view']);
     </tr>
   </thead>
  <tbody>
+
 <?$cnt = 0;foreach($args['items'] as $i){?>
+  <?
+    $link = '?mod='.$_GET['mod'].'&act=edititem&id='.$i['id'].(isset($_GET['page'])?('&page='.$_GET['page']):'');
+  ?>
   <tr align="center" class="container <?=((++$cnt%2)==0 ? 'odd':'')?>">
     <td style="font-size:11px;color:#999;"><?=$i['id']?></td>
   <?if($args['mod_pos']){?>
@@ -89,29 +93,12 @@ $width=ceil($width/$args['mod_view']);
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
     <td align="left" id="<?=$i['id']?>">
-        <?if(isset($f['link']) && $f['link']==1){?>
-             <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?><?=isset($_GET['page'])?('&page='.$_GET['page']):''?>" title="редактировать">
-                    <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
-             </a>
-        <?}else{?>
-             <?
-                if($f['type']=='option')  
-                {
-                    echo $args['options'][$f['name']]['values'][$i[$f['name']]] ;
-                }
-                elseif($f['type']=='date')
-                {
-                    echo date('d.m.Y',$i[$f['name']]);
-                }
-                else
-                    echo mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')
-             ?>
-        <?}?>
+        <?=ValuesFnc::showValue($i, $f, $args, $link)?>
     </td>
   <?}?>
 <?}?>
     <td nowrap="nowrap">
-      <a href="?mod=<?=$_GET['mod']?>&act=edititem&id=<?=$i['id']?><?=isset($_GET['page'])?('&page='.$_GET['page']):''?>" title="редактировать"><img class="btn_edit" src="/admin/images/icon_edit.gif" width="17" height="17" border="0" /></a>
+      <a href="<?=$link?>" title="редактировать"><img class="btn_edit" src="/admin/images/icon_edit.gif" width="17" height="17" border="0" /></a>
       <a href="javascript:del(<?=$i['id']?>)" title="удалить"><img class="btn_del" src="/admin/images/icon_del.gif" width="17" height="17" border="0" /></a>
     </td>
   </tr>

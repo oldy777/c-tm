@@ -25,31 +25,31 @@ $args['mod_pos2']=true;
 $args['mod_pos3']=true;  
 $args['mod_pos_reverse']=false;
 $args['mod_fields']=Array(              # Поля
-  Array('name'=>'title','title'=>'Название категории','type'=>'varchar','view'=>1, 'link'=>1),
-  Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
-  Array('name'=>'description','title'=>'Описание','type'=>'editor'),
-  Array('name'=>'img','title'=>'Картинка','type'=>'image'),
-  Array('name'=>'description_seo','title'=>'Description','type'=>'text'),
-  Array('name'=>'keywords','title'=>'Keywords','type'=>'text'),
-  Array('name'=>'act','title'=>'Показывать','type'=>'option'),
+  Array('name'=>'title','title'=>'Название категории','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1, 'link'=>1),
+  Array('name'=>'alias','title'=>'Алиас','type'=>ValuesFnc::VAL_VARCHAR),
+  Array('name'=>'description','title'=>'Описание','type'=>ValuesFnc::VAL_EDITOR),
+  Array('name'=>'img','title'=>'Картинка','type'=>ValuesFnc::VAL_IMAGE),
+  Array('name'=>'description_seo','title'=>'Description','type'=>ValuesFnc::VAL_TEXTAREA),
+  Array('name'=>'keywords','title'=>'Keywords','type'=>ValuesFnc::VAL_TEXTAREA),
+  Array('name'=>'act','title'=>'Показывать','type'=>ValuesFnc::VAL_OPTION),
 );
 
 $args['mod_fields2']=Array(              # Поля
-    Array('name'=>'title','title'=>'Название ','type'=>'varchar','view'=>1, 'link'=>1),
-    Array('name'=>'alias','title'=>'Алиас','type'=>'varchar'),
+    Array('name'=>'title','title'=>'Название ','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1, 'link'=>1),
+    Array('name'=>'alias','title'=>'Алиас','type'=>ValuesFnc::VAL_VARCHAR),
     Array('name'=>$args['mod_table_name'].'_id','title'=>'Категория','type'=>'option_struct'),
-    Array('name'=>'price','title'=>'Цена','type'=>'varchar','view'=>1,),
-    Array('name'=>'doc','title'=>'Документация','type'=>'file'),
-    Array('name'=>'img','title'=>'Фото','type'=>'image'),
-    Array('name'=>'anons','title'=>'Кртакое описание','type'=>'text'),
-    Array('name'=>'descr','title'=>'Полное описание','type'=>'editor'),
-    Array('name'=>'act','title'=>'Показывать','type'=>'option'),
+    Array('name'=>'price','title'=>'Цена','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1,),
+    Array('name'=>'doc','title'=>'Документация','type'=>ValuesFnc::VAL_FILE),
+    Array('name'=>'img','title'=>'Фото','type'=>ValuesFnc::VAL_IMAGE),
+    Array('name'=>'anons','title'=>'Кртакое описание','type'=>ValuesFnc::VAL_TEXTAREA),
+    Array('name'=>'descr','title'=>'Полное описание','type'=>ValuesFnc::VAL_EDITOR),
+    Array('name'=>'act','title'=>'Показывать','type'=>ValuesFnc::VAL_OPTION),
 );
 
 $args['mod_fields3']=Array(              # Поля
-  Array('name'=>'title','title'=>'Название','type'=>'varchar','view'=>1, 'link'=>1),
-  Array('name'=>'text','title'=>'Описание','type'=>'editor'),
-  Array('name'=>'act','title'=>'Показывать','type'=>'option'),
+  Array('name'=>'title','title'=>'Название','type'=>ValuesFnc::VAL_VARCHAR,'view'=>1, 'link'=>1),
+  Array('name'=>'text','title'=>'Описание','type'=>ValuesFnc::VAL_EDITOR),
+  Array('name'=>'act','title'=>'Показывать','type'=>ValuesFnc::VAL_OPTION),
 );
 
 $args['options']['act']['values'][1] = 'Да';
@@ -93,14 +93,14 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
       
       if($args['mod_pos']){
         $where = " parent_id = ".((int)$_GET['f_id'] ? (int)$_GET['f_id']:0);
-        $val['pos'] = getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse'], $where);
+        $val['pos'] = ValuesFnc::getPosForNewItem($args['mod_table_name'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['f_id'])
@@ -121,7 +121,7 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
@@ -171,14 +171,14 @@ switch($action){
       foreach($args['mod_fields2'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
       
       if($args['mod_pos2']){
         $where = $args['mod_table_name']."_id = ".(int)$_GET['f_id'];
-        $val['pos'] = getPosForNewItem($args['mod_table_name2'], $args['mod_pos_reverse'], $where);
+        $val['pos'] = ValuesFnc::getPosForNewItem($args['mod_table_name2'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['f_id'])
@@ -199,7 +199,7 @@ switch($action){
       foreach($args['mod_fields2'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
@@ -289,14 +289,14 @@ case "price":
       foreach($args['mod_fields3'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }
       
       if($args['mod_pos']){
         $where = $args['mod_table_name2']."_id = ".(int)$_GET['id'];
-        $val['pos'] = getPosForNewItem($args['mod_table_name3'], $args['mod_pos_reverse'], $where);
+        $val['pos'] = ValuesFnc::getPosForNewItem($args['mod_table_name3'], $args['mod_pos_reverse'], $where);
       }
       
       if($_GET['id'])
@@ -317,7 +317,7 @@ case "price":
       foreach($args['mod_fields3'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = checkModFields($f);
+                  $val[$f['name']] = ValuesFnc::checkModFields($f);
                   break;
           }
       }

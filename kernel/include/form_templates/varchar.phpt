@@ -1,0 +1,1 @@
+<input type="text" name="<?=$args['_field']['name']?>" style="width:100%;" value="<?=htmlspecialchars($args['item'][$args['_field']['name']])?>"/>

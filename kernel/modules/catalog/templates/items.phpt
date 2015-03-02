@@ -94,6 +94,9 @@ $width=ceil($width/$args['mod_view']);
   </thead>
  <tbody>
 <?$cnt = 0;foreach($args['items'] as $i){?>
+   <?
+        $link = '?mod='.$_GET['mod'].(isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:'').(isset($_GET['page']) && $_GET['page'] ? '&page='.$_GET['page']:'').'&f_id='.$i['id'];
+   ?>
   <tr align="center" class="container <?=((++$cnt%2)==0 ? 'odd':'')?>">
     <td style="font-size:11px;color:#999;"><?=$i['id']?></td>
   <?if($args['mod_pos']){?>
@@ -102,13 +105,7 @@ $width=ceil($width/$args['mod_view']);
 <?foreach($args['mod_fields'] as $f){?>
   <?if($f['view']==1){?>
     <td align="left" id="<?=$i['id']?>">
-        <?if(isset($f['link']) && $f['link']==1){?>
-             <a href="?mod=<?=$_GET['mod']?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?><?=isset($_GET['page']) && $_GET['page'] ? '&page='.$_GET['page']:''?>&f_id=<?=$i['id']?>" title="редактировать">
-                    <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
-             </a>
-        <?}else{?>
-             <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
-        <?}?>
+        <?=ValuesFnc::showValue($i, $f, $args, $link)?>
     </td>
   <?}?>
 <?}?>
@@ -160,6 +157,9 @@ $width=ceil($width/$args['mod_view']);
   </thead>
  <tbody>
 <?$cnt = 0;foreach($args['itemspr'] as $i){?>
+  <?
+        $link = '?mod='.$_GET['mod'].(isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:'').(isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:'').(isset($_GET['page']) && $_GET['page'] ? '&page='.$_GET['page']:'').'&act=editpr&id='.$i['id'];
+  ?>
   <tr align="center" class="container <?=((++$cnt%2)==0 ? 'odd':'')?>">
     <td style="font-size:11px;color:#999;"><?=$i['id']?></td>
   <?if($args['mod_pos2']){?>
@@ -168,15 +168,11 @@ $width=ceil($width/$args['mod_view']);
 <?foreach($args['mod_fields2'] as $f){?>
   <?if($f['view']==1){?>
     <td align="left" id="<?=$i['id']?>">
-        <?if(isset($f['link']) && $f['link']==1){?>
-             <a href="?mod=<?=$_GET['mod']?><?=isset($_GET['f_id']) && $_GET['f_id'] ? '&f_id='.$_GET['f_id']:''?><?=isset($_GET['order']) && $_GET['order'] ? '&order='.$_GET['order'].'&type='.$_GET['type']:''?><?=isset($_GET['page']) && $_GET['page'] ? '&page='.$_GET['page']:''?>&act=editpr&id=<?=$i['id']?>" title="редактировать">
-                    <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
-             </a>
-        <?}elseif($f['name']=='price'){?>
+        <?if($f['name']=='price'){?>
             <div class="color"><?=$i[$f['name']] ? mb_substr(($i[$f['name']]),0,250,'UTF-8'):'Не указан'?></div>
             <div class="color_inp"><input type="text" act="price" value="<?=mb_substr(($i[$f['name']]),0,250,'UTF-8')?>" title="<?=mb_substr(($i[$f['name']]),0,250,'UTF-8')?>" rel="<?=$i['id']?>" /></div>
         <?}else{?>
-             <?=mb_substr(htmlspecialchars($i[$f['name']]),0,250,'UTF-8')?>
+             <?=ValuesFnc::showValue($i, $f, $args, $link)?>
         <?}?>
     </td>
   <?}?>
