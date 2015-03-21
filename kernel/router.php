@@ -56,7 +56,7 @@ $kernel['tree'] = new httree();
 /***
 * Для того что бы не переделывать переменные для англ. версии
 */
-$kernel['lng'] = '';
+$kernel['lng'] = 'ru';
 if(in_array($kernel['path'][1], $kernel['config']['languages']))
 {
     $kernel['lng'] = $kernel['path'][1];
@@ -74,8 +74,9 @@ if(in_array($kernel['path'][1], $kernel['config']['languages']))
 $filepath = $kernel['path'][1] == '' ? 'index':$kernel['path'][1];
 if($filepath && file_exists(MODULES_DIR.'/pages/'.$filepath.'.php'))
 {
-    $path = ($kernel['lng']?('/'.$kernel['lng']):'').($kernel['path'][1] == '' ? '/':('/'.$kernel['path'][1].'/'));
+    $path = ($kernel['lng']!='ru'?('/'.$kernel['lng']):'').($kernel['path'][1] == '' ? '/':('/'.$kernel['path'][1].'/'));
     $kernel['node'] = $kernel['tree']->findnode($path);
+    
     $args['content'] = module('pages/'.$filepath.'.php', array(), true);
 }
 else
@@ -118,12 +119,10 @@ if($kernel['http_code']==404){
       $kernel['docpath'] = '404';
       $kernel['docext'] = 'html';
       $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']);
-
+      $kernel['doc']['content'] = module("pages/404.php", array(), true);
       header("HTTP/1.0 404 Not Found");
 }
 
-if(!$kernel['lng'])
-    $kernel['lng'] = 'ru';
 
 // заголовки страницы
 $kernel['title'] = strval($kernel['doc']['title']==''? $kernel['node']['title'] : $kernel['doc']['title']);
