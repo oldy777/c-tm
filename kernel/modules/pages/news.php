@@ -1,7 +1,7 @@
 <?
 include_once(INCLUDE_DIR. '/textproc.php');
 /* @var $q query_mysql */
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 $table = 'news';
 $args = array();
 $errors = array();
@@ -10,15 +10,15 @@ $args['page'] = 1;
 $where = '';
 $num = 10;
 
-
 foreach ($kernel['path'] as $k => $p) {
     if (substr($kernel['path'][$k], 0, 3) == "id-") {
         $args['id'] = substr($kernel['path'][$k], 3, strlen($kernel['path'][$k]));
     }
-    if (substr($kernel['path'][$k], 0, 5) == "page-") {
+    elseif (substr($kernel['path'][$k], 0, 5) == "page-") {
         $args['page'] = substr($kernel['path'][$k], 5, strlen($kernel['path'][$k]));
     }
 }
+
 
 //Предпросмотр, данные передаются из админки
 if($args['id'] == 'preview' && isset($_POST))
@@ -33,7 +33,12 @@ else
 
         $args['item'] = $q->z_getRowById($table, $args['id']);
         
-        $kernel['title'] = $args['item']['title'];
+        if(!$args['item'])
+        {
+            return show404();
+        }
+        
+        $kernel['node']['title'] = $args['item']['title'];
         $kernel['doc']['description'] = $args['item']['description'];
         $kernel['doc']['keywords'] =  $args['item']['keywords'];
 

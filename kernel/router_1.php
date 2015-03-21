@@ -1,7 +1,7 @@
 <?php
 header("HTTP/1.1 200 OK");
 include(INCLUDE_DIR. '/httree.php');
-$args = array();
+
 set_include_path(INCLUDE_DIR);
 ini_set('include_path', INCLUDE_DIR);
 $kernel['http_code'] = 200;
@@ -9,24 +9,29 @@ $request_uri = $_SERVER['REQUEST_URI'];
 
 // добавляем первый слеш
 if($request_uri[0]!='/') { $request_uri = '/'. $request_uri; }
+// заменяем "/a?b" в "/a?action=b"
+$request_uri = preg_replace('~^([a-zA-Z0-9_\/\-\.]+)\?([a-zA-Z0-9]+)$~', '$1?action=$2', $request_uri);
+// опять проверяем первый слеш
+if($request_uri[0]!='/') { $request_uri = '/'.$request_uri; }
+
 
 // парсим урл
-$url = parse_url(rawurldecode($request_uri));
-
+$url = parse_url("http://". $_SERVER['HTTP_HOST']. rawurldecode($request_uri));
 // заменяем обратные слешы прямыми
 $url['path'] = str_replace('\\', '/', $url['path']);
 $url['path'] = str_replace('\.', '', $url['path']);
 // заменяем повторяющиеся слешы
 $url['path'] = preg_replace('~/{2,}~', '/', $url['path']);
-
 // если запрашивали папку а не файл добавляем в путь индексный файл
 $url['path'] = preg_replace('~^\/([a-zA-Z0-9_\/\-]+)\/$~', '/\1/index.html', $url['path']);
 if($url['path']=='/') { $url['path'] = '/index.html'; }
 
-
 // получаеи GET заголовки
-$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
 
+parse_str($url['query'], $HTTP_GET_VARS);
+$_GET = array_merge($_GET, $HTTP_GET_VARS);
+$HTTP_GET_VARS = &$_GET;
+$_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
 
 // fix
 $_SERVER['PHP_SELF'] = $url['path'];
@@ -43,7 +48,6 @@ $kernel['php_self'] = $_SERVER['PHP_SELF'];
 if(!preg_match('~^([a-zA-Z0-9_\/\-]*/)([a-zA-Z0-9_\-]+)\.([a-z]+)$~', $url['path'], $matches)){
   http_redirect($url['path']."/");
 }
-
 $kernel['nodepath'] = $matches[1];
 $kernel['docpath'] = $matches[2];
 $kernel['docext'] = $matches[3];
@@ -53,77 +57,86 @@ $kernel['path'] = explode("/",$kernel['nodepath']);
 
 $kernel['tree'] = new httree();
 
-/***
-* Для того что бы не переделывать переменные для англ. версии
-*/
-$kernel['lng'] = '';
-if(in_array($kernel['path'][1], $kernel['config']['languages']))
-{
-    $kernel['lng'] = $kernel['path'][1];
-    setLanguage($kernel['lng'],$kernel['lng'].'_'. strtoupper($kernel['lng']));
-    unset($kernel['path'][1]);
+$kernel['node'] = $kernel['tree']->findnode($kernel['nodepath']);
 
-    $tmp = $kernel['path'];
-    unset($kernel['path']);
-    $kernel['path'] = array();
-    foreach ($tmp as $v) {
-         $kernel['path'][] = $v;
+if(!$kernel['tree']->findnode($kernel['nodepath'],true)){
+  $kernel['http_code']="404";
+};
+
+//// 403-404 node
+//if(empty($kernel['node']))
+//{
+//  $kernel['node'] = $kernel['tree']->getnode($url['path'].'/');
+//  if(empty($kernel['node'])) // нету такого узла
+//  {
+//    $kernel['http_code'] = 404;
+//  }
+//  else // запросили без завершающей "/"
+//  {
+//    $kernel['http_code'] = 403;
+//    header("HTTP/1.1 301 Moved Permanently");
+//    $location = "http://". $_SERVER['HTTP_HOST']. $kernel['node']['fullpath'];
+//    if($_SERVER["QUERY_STRING"]!='')
+//     { $location.= '?'. $_SERVER['QUERY_STRING']; }
+//    header("Location: ". $location);
+//    exit(0);
+//  }
+//}
+
+//проверяем чтобы небыло левых расширении для файлов !!!
+if($kernel['docext']=='html')
+{
+    //пытаемся запросить документ из базы
+    $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']);
+
+    //если не нашли выкидываем на 404 страничку (шаблон)
+    if(empty($kernel['doc'])){
+
+        //$kernel['http_code'] = 404;
+        $kernel['node'] = $kernel['tree']->getroot();
+        $kernel['nodepath'] = '/';
+        $kernel['docpath'] = '404';
+        $kernel['docext'] = 'html';
+        $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']); // 404
     }
 }
-
-$filepath = $kernel['path'][1] == '' ? 'index':$kernel['path'][1];
-if($filepath && file_exists(MODULES_DIR.'/pages/'.$filepath.'.php'))
+else // 404 binary
 {
-    $path = ($kernel['lng']?('/'.$kernel['lng']):'').($kernel['path'][1] == '' ? '/':('/'.$kernel['path'][1].'/'));
-    $kernel['node'] = $kernel['tree']->findnode($path);
-    $args['content'] = module('pages/'.$filepath.'.php', array(), true);
-}
-else
-{
-    $kernel['node'] = $kernel['tree']->findnode($kernel['nodepath']);
-    if(!$kernel['node'])
-    {
-        $kernel['http_code'] = 404;
-    }
-    else
-    {
-        //проверяем чтобы небыло левых расширении для файлов !!!
-        if($kernel['docext']=='html')
-        {
-            //пытаемся запросить документ из базы
-            $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']);
-
-            //если не нашли выкидываем на 404 страничку (шаблон)
-            if(empty($kernel['doc']))
-            {
-                $kernel['http_code'] = 404;
-            }
-            else{
-                $kernel['doc']['content'] = module("pages/typicle.php", array(), true);
-            }
-        }
-        else // 404 binary
-        {
-            $kernel['http_code'] = 404;
-            $kernel['doc'] = array();
-        }
-
-    }
+    $kernel['http_code'] = 404;
+    $kernel['doc'] = array();
 }
 //если запрашиваемых страничек нету выдаем соответствующий заголовок
 if($kernel['http_code']==404){
+    for($t=sizeof($kernel['path'])-2;$t>1;$t--){
+      $kernel['nodepath1']="";
+      for($i=0;$i<sizeof($kernel['path'])-$t;$i++){
+        $kernel['nodepath1'].=$kernel['path'][$i].'/';
+      };
+      $q->query("select * from ptree where fullpath='".$kernel['nodepath1']."'");
+      if($q->num_rows()==1&&sizeof($kernel['path'])-2>1){
+        $kernel['nodepath']=$kernel['nodepath1'];
+      }
+    }
 
+    $q->query("select * from ptree where fullpath='".$kernel['nodepath']."'");
+    if($q->num_rows()==1&&sizeof($kernel['path'])-2>1){
+      $kernel['node']=$q->get_row();
+      $kernel['docpath'] = 'index';
+      $kernel['docext'] = 'html';
+      $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']);
+    }else{
       $kernel['node'] = $kernel['tree']->getroot();
       $kernel['nodepath'] = '/';
       $kernel['docpath'] = '404';
       $kernel['docext'] = 'html';
       $kernel['doc'] = $kernel['tree']->getdoc($kernel['docpath'], $kernel['node']['id']);
+    };
+    if($kernel['docpath'] == 404)
+    {
+        header("HTTP/1.0 404 Not Found");
 
-      header("HTTP/1.0 404 Not Found");
+    }
 }
-
-if(!$kernel['lng'])
-    $kernel['lng'] = 'ru';
 
 // заголовки страницы
 $kernel['title'] = strval($kernel['doc']['title']==''? $kernel['node']['title'] : $kernel['doc']['title']);
@@ -133,19 +146,15 @@ $kernel['description'] = strval($kernel['doc']['description']==''? $kernel['node
 clearstatcache();
 
 ob_start();
-
-if(isset($kernel['doc']['content']))
-{
-    //проверяем на наличие "временного файла" и обновляем по необходимости
-    $mtime = NULL;
-    $path = HTDOC_CACHE_DIR. '/htdoc#'. urlencode($kernel['node']['fullpath'].$kernel['doc']['path']). '.html#'. $kernel['doc']['id'] .'.phpt';
-    if(file_exists($path)) { $mtime = filemtime($path); }
-    if($mtime && $mtime==$kernel['doc']['updated']) { } // если время совпадает то все норм
-    elseif(!$mtime || $kernel['doc']['updated'] > $mtime){ // иначе пишем из базы в файл
-        if(lockwrite($path, $kernel['doc']['content'])){
-            if($kernel['doc']['updated']){
-                touch($path, $kernel['doc']['updated']);
-            }
+//проверяем на наличие "временного файла" и обновляем по необходимости
+$mtime = NULL;
+$path = HTDOC_CACHE_DIR. '/htdoc#'. urlencode($kernel['node']['fullpath'].$kernel['doc']['path']). '.html#'. $kernel['doc']['id'] .'.phpt';
+if(file_exists($path)) { $mtime = filemtime($path); }
+if($mtime && $mtime==$kernel['doc']['updated']) { } // если время совпадает то все норм
+elseif(!$mtime || $kernel['doc']['updated'] > $mtime){ // иначе пишем из базы в файл
+    if(lockwrite($path, $kernel['doc']['content'])){
+        if($kernel['doc']['updated']){
+            touch($path, $kernel['doc']['updated']);
         }
     }
 }
@@ -154,21 +163,13 @@ $kernel['etag'] = md5(ob_get_contents());
 header('ETag: "'. $kernel['etag']. '" ');
 
 //если тип страницы пхп то просто выводим ее с выполнением
-if($kernel['doc']['eval']) 
-{
+
+
+if($kernel['doc']['eval']) {
     $kernel['content'] = template($path,array(),array(),1);
-}
-else
-{
-    if(!isset($kernel['doc']['content']))
-    {
-        $kernel['content'] = $args['content'];
-    }
-    else
-    {
-        //иначе считываем из файла
-        $kernel['content'] = join('',file($path));
-    }
+}else{
+    //иначе считываем из файла
+ $kernel['content'] = join('',file($path));
 }
 
 // макет

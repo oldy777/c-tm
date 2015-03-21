@@ -43,6 +43,8 @@ $config['session']['user_agent']    = false;
 $config['tmp']['gc']            = true;
 $config['tmp']['gc_maxlifetime']    = 3600*24*7*2;
 
+$config['languages']           = array('ru', 'en');
+
 
 return $config;
 ?>

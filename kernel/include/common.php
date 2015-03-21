@@ -493,6 +493,13 @@ function maket($id, $args=array())
   return NULL;
 }
 
+function show404()
+{
+    global $kernel;
+    $kernel['http_code'] = 404;
+    return '';
+}
+
 /**
  * Получение одной ветви дерева
  * $arr - массив вида

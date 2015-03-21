@@ -87,9 +87,4 @@ $q->query('SELECT (CASE WHEN module=\'\' THEN 0 ELSE module END) as module,var,v
 while($r = $q->get_row()) { $kernel['params'][ $r['module'] ] [ $r['var'] ] = $r['value']; }
 $q->free_result();
 
-// modules help
-$kernel['help'] = array();
-$q->query('SELECT var,value FROM modules_help ORDER BY var');
-while($r = $q->get_row()) {$kernel['help'][$r['var']] = $r['value']; }
-$q->free_result();
 ?>

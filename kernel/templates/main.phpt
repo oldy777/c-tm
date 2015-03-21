@@ -1,22 +1,10 @@
-<?php 
-   $content = '';
-   switch($kernel['path'][1]){
-      default:
-        if($kernel['path'][1] == '') $kernel['path'][1] = 'index';
-        if($kernel['path'][1] && file_exists($_SERVER['DOCUMENT_ROOT'].'/kernel/modules/pages/'.$kernel['path'][1].'.php'))
-                $content = module('pages/'.$kernel['path'][1].'.php', array(), true);
-        else
-                $content = module("pages/typicle.php", array(), true);
-        break;
-   }
-?>
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?=($kernel['doc']['title']=="")?$kernel['title']." - ".$kernel['params']['main']['sitename_ru']:$kernel['doc']['title'].' - '.$kernel['params']['main']['sitename_ru']?></title>
-    <meta name="description" content="<?=isset($kernel['doc']['description']) && $kernel['doc']['description'] ? $kernel['doc']['description']:$kernel['params']['main']['description']?>">
-    <meta name="keywords" content="<?=isset($kernel['doc']['keywords']) && $kernel['doc']['keywords'] ? $kernel['doc']['keywords']:$kernel['params']['main']['keywords']?>">
+    <title><?=$kernel['title']." - ".$kernel['params']['main']['sitename_ru']?></title>
+    <meta name="description" content="<?=$kernel['description'] ? $kernel['description']:$kernel['params']['main']['description']?>">
+    <meta name="keywords" content="<?=$kernel['keywords'] ? $kernel['keywords']:$kernel['params']['main']['keywords']?>">
 
 </head>
 <body>
@@ -34,7 +22,7 @@
     <legend>Возможности</legend>
     <a href="/sitemap/">Карта сайта</a>
 </fieldset>
-<?=$content?>
+<?=$kernel['content']?>
 
 
 </body>

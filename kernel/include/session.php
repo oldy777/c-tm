@@ -210,7 +210,7 @@ function setLanguage($lang='ru', $locale='ru_RU')
 {
     $lang = 'en';
     $locale = "en_US";
-    $domain = 'zebrikus.com'; // так должны называться файлы *.po и *.mo
+    $domain = 'default'; // так должны называться файлы *.po и *.mo
     $locale_path = $_SERVER['DOCUMENT_ROOT'].'/locale'; // папка с каталогами переводов
     // Set enviroment
     putenv('LC_MESSAGES='.$locale);
