@@ -558,5 +558,5 @@ ALTER TABLE `accounts` ADD `email` VARCHAR( 255 ) NOT NULL AFTER `address` ;
 
 ALTER TABLE `users` ADD `bg` VARCHAR( 255 ) NOT NULL COMMENT 'бекграунд админки';
 
-INSERT INTO `base`.`modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'vacancy', '0', '0', 'modules', '0', 'Вакансии', NULL);
-INSERT INTO `base`.`modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'catalog', '0', '0', 'modules', '0', 'Каталог', NULL);
+INSERT INTO `modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'vacancy', '0', '0', 'modules', '0', 'Вакансии', NULL);
+INSERT INTO `modules` (`id`, `name`, `parent_id`, `hidden`, `section`, `position`, `title`, `descr`) VALUES (NULL, 'catalog', '0', '0', 'modules', '0', 'Каталог', NULL);

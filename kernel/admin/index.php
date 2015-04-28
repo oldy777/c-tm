@@ -21,7 +21,7 @@ $args['mod'] = '';
 
 $errors['perm'] = false;
 /* @var $q query_mysql */
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 
 $mod = str_replace(array('/', '\\'), '', trim($_GET['mod'])); // anti hack
 $modpath = '';

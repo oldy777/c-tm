@@ -78,7 +78,7 @@ if($kernel['mode']!='file' && $kernel['mode']!='normal')
   $kernel['id_session'] = session_id();
 }
 
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 //$q->query('set character set cp1251_koi8');
 
 // modules params

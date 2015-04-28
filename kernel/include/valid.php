@@ -38,29 +38,28 @@ class ValuesFnc
     const VAL_OPTION = 'option';
     const VAL_TEXTAREA = 'text';
 
-    static function checkModFields($f) 
+    static function checkModFields($f, $val) 
     {
         global $kernel;
         /* @var $q query_mysql */
-        $q = &$kernel['db']->query();
-        $val = '';
+        $q = $kernel['db']->query();
         switch ($f['type']) {
             case 'image':
                 if($_POST[$f['name'].'_del']==1){
-                    $val=0;
+                    $val[$f['name']]=0;
                 }
                 if($_FILES[$f['name']]['error']==0){
                     if(!function_exists('image_module_add'))
                     {
                         include_once(INCLUDE_DIR. '/images.php');
                     }
-                    $val = image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
+                    $val[$f['name']] = image_module_add($_FILES[$f['name']]['tmp_name'],$args['mod_table_name'], $_FILES[$f['name']]['name']);
                 }
                 break;
 
             case 'file':
                 if($_POST[$f['name'].'_del']==1){
-                    $val = 0;
+                    $val[$f['name']] = 0;
                   }
                   if($_FILES[$f['name']]['error']===0 && is_readable($_FILES[$f['name']]['tmp_name']))
                   {
@@ -88,26 +87,26 @@ class ValuesFnc
                       $q->format("UPDATE modules_files SET path='%s' WHERE id='%d'", $path, $id);
 
                         $q->query("select id from modules_files order by id desc limit 0,1");
-                          $val = $q->get_cell();
+                          $val[$f['name']] = $q->get_cell();
                     }
                   }
                 break;
 
             case 'date':
-                $val = parse_date(trim($_POST[$f['name']]));
+                $val[$f['name']] = parse_date(trim($_POST[$f['name']]));
                 break;
 
             case 'pass':
                 if(isset($_POST[$f['name']]) && $_POST[$f['name']])
-                    $val = $_POST[$f['name']] == $_POST['passwd2'] ? md5($_POST[$f['name']]):'';
+                    $val[$f['name']] = $_POST[$f['name']] == $_POST['passwd2'] ? md5($_POST[$f['name']]):'';
                 break;
 
             case 'checkbox':
-              $val = isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
+              $val[$f['name']] = isset($_POST[$f['name']]) && $_POST[$f['name']] ? 1:0;
                 break;
 
             default:
-                $val = $_POST[$f['name']];
+                $val[$f['name']] = $_POST[$f['name']];
                 break;
         }
 
@@ -118,7 +117,7 @@ class ValuesFnc
     {
         global $kernel;
         /* @var $q query_mysql */
-        $q = &$kernel['db']->query();
+        $q = $kernel['db']->query();
         if ($reverse) {
             $val = 0;
             $q->query("select * from " . $table." WHERE ".$where);
@@ -177,43 +176,19 @@ class ValuesFnc
         $args['_field'] = $f;
         switch ($f['type'])
         {
-            case 'varchar':
-                $val = template(INCLUDE_DIR.'/form_templates/varchar.phpt', $args, array(), true);
-                break;
             
             case 'text':
                 $val = template(INCLUDE_DIR.'/form_templates/textarea.phpt', $args, array(), true);
-                break;
-            
-            case 'editor':
-                $val = template(INCLUDE_DIR.'/form_templates/editor.phpt', $args, array(), true);
-                break;
-            
-            case 'image':
-                $val = template(INCLUDE_DIR.'/form_templates/image.phpt', $args, array(), true);
-                break;
-            
-            case 'file':
-                $val = template(INCLUDE_DIR.'/form_templates/file.phpt', $args, array(), true);
-                break;
-            
-            case 'option':
-                $val = template(INCLUDE_DIR.'/form_templates/option.phpt', $args, array(), true);
-                break;
-            
-            case 'date':
-                $val = template(INCLUDE_DIR.'/form_templates/date.phpt', $args, array(), true);
                 break;
             
             case 'pass':
                 $val = template(INCLUDE_DIR.'/form_templates/password.phpt', $args, array(), true);
                 break;
             
-            case 'checkbox':
-                $val = template(INCLUDE_DIR.'/form_templates/checkbox.phpt', $args, array(), true);
-                break;
-
             default:
+                if(file_exists(INCLUDE_DIR.'/form_templates/'.$f['type'].'.phpt'))
+                    $val = template(INCLUDE_DIR.'/form_templates/'.$f['type'].'.phpt', $args, array(), true);
+                else
                 $val = template(INCLUDE_DIR.'/form_templates/varchar.phpt', $args, array(), true);
                 break;
         }

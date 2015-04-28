@@ -89,7 +89,7 @@ function image_delete($id)
   {
     global $kernel;
     /* @var $q query_mysql */
-    $q = &$kernel['db']->query();
+    $q = $kernel['db']->query();
     $q->format("DELETE FROM modules_images WHERE id='%d'", $id);
     unlink($_SERVER['DOCUMENT_ROOT']. "/upload/images/". $info['path']);
     return true;
@@ -122,7 +122,7 @@ function image_add($srcpath, $section, $name)
       {
         global $kernel;
         setfileperm($dstpath);
-        $q = &$kernel['db']->query();
+        $q = $kernel['db']->query();
         $q->format("INSERT INTO images SET id='%d',id_section='%d',name='%s',path='%s',width='%d',height='%d',typeid='%d',created='%d',updated='%d'", $kernel['db']->next_id('images'), $section, $name, $path, $width, $height, $typeid, time(), time());
         $ret = $kernel['db']->last_id();
       }
@@ -147,7 +147,7 @@ function image_module_add($srcpath, $section, $name, $types = array())
       {
         global $kernel;
         setfileperm($dstpath);
-        $q = &$kernel['db']->query();
+        $q = $kernel['db']->query();
         $time = time();
         $q->format("INSERT INTO modules_images SET section='%s',path='%s',width='%d',height='%d',created='%d',updated='%d'", $section, $path, $width, $height, $time, $time);
         $ret = $kernel['db']->last_id();
@@ -167,7 +167,7 @@ function image_module_download_add($srcpath, $section, $name,$ext)
   {
     global $kernel;
     setfileperm($dstpath);
-    $q = &$kernel['db']->query();
+    $q = $kernel['db']->query();
     $time = time();
     $q->format("INSERT INTO modules_images SET section='%s',path='%s',width='%d',height='%d',created='%d',updated='%d'", $section, $path, $width, $height, $time, $time);
     $ret = $kernel['db']->last_id();
@@ -186,7 +186,7 @@ function image_module_download_add_new($srcpath, $section, $name,$ext)
   {
     global $kernel;
     setfileperm($dstpath);
-    $q = &$kernel['db']->query();
+    $q = $kernel['db']->query();
     $time = time();
     $q->format("INSERT INTO modules_images SET section='%s',path='%s',width='%d',height='%d',created='%d',updated='%d'", $section, $path, $width, $height, $time, $time);
     $ret = array('id'=>$kernel['db']->last_id(),'path'=>$path);
@@ -209,7 +209,7 @@ function flash_add($srcpath, $section, $name,$ext)
     {
       global $kernel;
       setfileperm($dstpath);
-      $q = &$kernel['db']->query();
+      $q = $kernel['db']->query();
       $q->format("INSERT INTO portfolio_video SET id='%d',id_work='%d',path='%s',width='%d',height='%d',typeid='%d',created='%d',updated='%d'", $kernel['db']->next_id('portfolio_images'), $section, $path, $width, $height, $typeid, time(), time());
       $ret = $kernel['db']->last_id();
     }
@@ -221,7 +221,7 @@ function flash_add($srcpath, $section, $name,$ext)
 function image_info($id)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("SELECT * FROM modules_images WHERE id='%d'", $id);
   $r = $q->get_row();
   $q->free_result();

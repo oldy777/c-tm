@@ -157,7 +157,7 @@ class anti_mate {
 
     global $kernel;
     /* @var $q query_mysql */
-    $q = &$kernel['db']->query();
+    $q = $kernel['db']->query();
 
     $q->query("select lower(name) as name from badwords");
     $args['items']=$q->get_allrows();
@@ -252,7 +252,7 @@ function lastmod($uri, $etag)
   $lastmod = time();
   global $kernel;
   /* @var $q query_mysql */
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("SELECT etag,lastmod FROM lastmod WHERE uri='%s'", $uri);
   $r = $q->get_row();
   $q->free_result();

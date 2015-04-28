@@ -6,7 +6,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/editor/ckeditor.php");
 $result = array();
 $result['title'] = '';
 $result['commands'] = array();
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 $action = trim($_GET['act']);
 $args = array();
 $errors = array();

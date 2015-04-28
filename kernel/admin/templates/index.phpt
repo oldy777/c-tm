@@ -15,7 +15,6 @@
 <script src="/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 <script src="/js/jquery.fancybox-1.2.1.pack.js" type="text/javascript"></script>
-<script src="/admin/jquery-ui-timepicker-addon.min.js"  type="text/javascript"></script>
 <script src="/js/datepickerRU.js" type="text/javascript"></script>
 <script src="/admin/sweet-alert.min.js"  type="text/javascript"></script>
 <script src="/admin/script.js"  type="text/javascript"></script>

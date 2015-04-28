@@ -77,6 +77,9 @@ if($filepath && file_exists(MODULES_DIR.'/pages/'.$filepath.'.php'))
     $path = ($kernel['lng']!='ru'?('/'.$kernel['lng']):'').($kernel['path'][1] == '' ? '/':('/'.$kernel['path'][1].'/'));
     $kernel['node'] = $kernel['tree']->findnode($path);
     
+    /**TODO: remake**/
+    $kernel['path'][1] = $kernel['path'][1] == '' ? 'index':$kernel['path'][1];
+    
     $args['content'] = module('pages/'.$filepath.'.php', array(), true);
 }
 else

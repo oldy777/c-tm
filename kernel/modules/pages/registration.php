@@ -1,5 +1,5 @@
 <?
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 $args = array();
 $errors = array();
 $template="registration.phpt";

@@ -5,7 +5,7 @@ function log_access_gc()
   global $kernel;
   if((rand() % $kernel['config']['log_access']['gc_divisor'])==($kernel['config']['log_access']['gc_probability'] - 1))
   {
-    $q = &$kernel['db']->query();
+    $q = $kernel['db']->query();
     $q->format("DELETE FROM log_access WHERE created < '%d'", time() - $kernel['config']['log_access']['gc_maxlifetime']);
   }
 }
@@ -15,7 +15,7 @@ function log_access_shutdown()
 {
   flush();
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   list($usec, $sec) = explode(" ", microtime());
   $exctime = (((float)$usec + (float)$sec)-$kernel['begin']);
   $memory = (function_exists('memory_get_usage')? memory_get_usage() : 0);

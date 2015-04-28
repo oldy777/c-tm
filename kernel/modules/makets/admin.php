@@ -6,7 +6,7 @@ $result['title'] = '';
 $result['commands'] = array();
 $args = array();
 $errors = array();
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 $action = trim($_GET['act']);
 $template = '';
 

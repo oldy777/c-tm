@@ -7,7 +7,7 @@ $result = array();
 $result['title'] = '';
 $result['commands'] = array();
 /*@var $q query_mysql*/
-$q = &$kernel['db']->query();
+$q = $kernel['db']->query();
 $action = trim($_GET['act']);
 $args = array();
 $errors = array();
@@ -93,7 +93,7 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = ValuesFnc::checkModFields($f);
+                  $val = ValuesFnc::checkModFields($f, $val);
                   break;
           }
       }
@@ -121,7 +121,7 @@ switch($action){
       foreach($args['mod_fields'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = ValuesFnc::checkModFields($f);
+                  $val = ValuesFnc::checkModFields($f, $val);
                   break;
           }
       }
@@ -171,7 +171,7 @@ switch($action){
       foreach($args['mod_fields2'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = ValuesFnc::checkModFields($f);
+                  $val = ValuesFnc::checkModFields($f, $val);
                   break;
           }
       }
@@ -199,7 +199,7 @@ switch($action){
       foreach($args['mod_fields2'] as $f){
           switch ($f['type']) {
               default:
-                  $val[$f['name']] = ValuesFnc::checkModFields($f);
+                  $val = ValuesFnc::checkModFields($f, $val);
                   break;
           }
       }
