@@ -153,7 +153,7 @@ case 'editnode':
 
   // макеты
   $q->format("SELECT id,title,(CASE WHEN id='%d' THEN 1 ELSE 0 END) as current FROM makets ORDER BY id", $args['id_maket']);
-  $args['makets'] = $q->get_allrows('id');
+  $args['makets'] = $q->get_allrows();
   $q->free_result();
   // команды
   $result['commands'][] = array('path'=>'?mod=htdocs', 'title'=>$config['msg']['tree']);
@@ -337,7 +337,7 @@ case 'adddoc':
   unset($args['content']);
   // макеты
   $q->format("SELECT id,title,(CASE WHEN id='%d' THEN 1 ELSE 0 END) as current FROM makets ORDER BY id", $args['id_maket']);
-  $args['makets'] = $q->get_allrows('id');
+  $args['makets'] = $q->get_allrows();
   $q->free_result();
   // команды
   $result['commands'][] = array('path'=>'?mod=htdocs', 'title'=>$config['msg']['tree']);
