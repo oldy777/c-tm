@@ -9,7 +9,7 @@ function sess_close() { return true; }
 function sess_read($id)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("SELECT s.*,u.id as userid,u.login as login,u.name as username,u.email as useremail FROM sessions as s LEFT JOIN users as u ON (u.id=s.id_user AND NOT u.blocked) WHERE s.id='%s'", $id);
   $r = $q->get_row();
   $q->free_result();
@@ -57,7 +57,7 @@ function sess_read($id)
 function sess_write($id, $storage)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("UPDATE sessions SET updated='%d', storage='%s' WHERE id='%s'", time(), $storage, $id);
   return true;
 }
@@ -66,7 +66,7 @@ function sess_write($id, $storage)
 function sess_destroy($id, $id_user=0)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("DELETE FROM sessions WHERE id='%s'", $id);
   if($id_user > 0)
   {
@@ -80,7 +80,7 @@ function sess_destroy($id, $id_user=0)
 function sess_gc($expire)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("SELECT id,id_user,updated,created FROM sessions WHERE updated < '%d'", time() - $expire);
   while($r = $q->get_row()) { sess_destroy($r['id'], $r['id_user']); }
   $q->free_result();
@@ -91,7 +91,7 @@ function sess_gc($expire)
 function login($login, $passwd='', $hash=true)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   if($hash) { $passwd = md5($passwd); }
 
   $q->format("SELECT id,login,blocked FROM users WHERE login='%s' AND passwd='%s'", $login, $passwd);
@@ -109,7 +109,7 @@ function login($login, $passwd='', $hash=true)
 function login_acc($login, $passwd='', $hash=true)
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   if($hash) { $passwd = md5($passwd); }
 
   $q->format("SELECT id,login,fio FROM accounts WHERE login='%s' AND passwd='%s'", $login, $passwd);
@@ -128,7 +128,7 @@ function login_acc($login, $passwd='', $hash=true)
 function logout_acc()
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("UPDATE sessions SET accounts_id=0 WHERE id='%s'", $kernel['id_session']);
   $kernel['accounts_id'] = 0;
   $kernel['login']   = '';
@@ -140,7 +140,7 @@ function logout_acc()
 function logout()
 {
   global $kernel;
-  $q = &$kernel['db']->query();
+  $q = $kernel['db']->query();
   $q->format("UPDATE sessions SET id_user=0 WHERE id='%s'", $kernel['id_session']);
   $kernel['id_user'] = 0;
   $kernel['login']   = '';
